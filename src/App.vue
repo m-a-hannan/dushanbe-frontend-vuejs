@@ -1,14 +1,14 @@
 <template>
-  <HelloWorld/>
+  <DushanbeHome/>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import DushanbeHome from './components/DushanbeHome.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    DushanbeHome
   }
 }
 </script>

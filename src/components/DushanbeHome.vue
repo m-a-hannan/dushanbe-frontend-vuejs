@@ -1,25 +1,31 @@
 <template>
+
+  <!-- Main Div -->
   <div class="hello">
 
-
+    <!--  Form Start  -->
     <form class="container mt-5 border border-warning">
-      <h1 class="mb-5 mt-3" style="color: #ff0090">Dushanbe</h1>
-      <!--      Bill-->
+      <h1 class="mb-5 mt-3" style="color: #0061A7">Bill Submissions | Dushanbe</h1>
+
+      <!-- Bill-->
       <div class="form-group">
         <label>Bill</label>
+
         <select class="form-control">
-          <option selected disabled>Select Bill</option>
+          <option selected disabled>select bill</option>
           <option v-for="bill in all_bills" :key="bill.id"
                   :value="bill.id">
             {{ bill.bill_name }}
           </option>
         </select>
       </div>
-      <!--      Topics-->
+
+      <!-- Topics -->
       <div class="form-group">
-        <label>Topic</label>
+        <label>Type</label>
+
         <select class="form-control">
-          <option selected disabled>Select Topic</option>
+          <option selected disabled>select type</option>
           <option>1</option>
           <option>2</option>
           <option>3</option>
@@ -28,11 +34,12 @@
         </select>
       </div>
 
-      <!--      Materials-->
+      <!-- Materials -->
       <div class="position-relative form-group">
-        <label>Materials</label>
+        <label>Material</label>
+
         <select class="form-control">
-          <option selected disabled>Select Materials</option>
+          <option selected disabled>select material</option>
           <option>1</option>
           <option>2</option>
           <option>3</option>
@@ -40,10 +47,11 @@
           <option>5</option>
         </select>
 
+
+        <!-- Serial Number -->
         <div class="form-row mt-3">
           <div class="col-md-4">
             <div class="position-relative form-group">
-
               <input
                   placeholder="Serial Number"
                   id="department_code"
@@ -52,10 +60,10 @@
                   disabled
                   class="form-control"
               />
-
             </div>
           </div>
 
+          <!-- Unit -->
           <div class="col-md-4">
             <div class="position-relative form-group">
               <input
@@ -68,6 +76,7 @@
             </div>
           </div>
 
+          <!-- Quantity -->
           <div class="col-md-4">
             <div class="form-group">
               <input
@@ -79,34 +88,46 @@
               />
             </div>
           </div>
-
         </div>
-
       </div>
 
-
-      <!--      work_progress-->
+      <!-- Submission Date -->
       <div class="position-relative form-group">
-        <label>work progress</label>
+        <label>Date</label>
+        <input type="date">
+      </div>
+
+      <!-- Work Progress -->
+      <div class="position-relative form-group">
+        <label>Work Progress</label>
         <input
             placeholder="0"
             id="department_name"
             v-model="department_name"
             type="number"
-            class="form-control"/>
+            class="form-control"
+            min="0"/>
       </div>
 
-      <button type="button" class="btn btn-success btn-lg mb-4">Submit</button>
+      <!-- Submit Button -->
+      <button type="button" class="btn btn-success btn-lg mb-4">SUBMIT</button>
 
     </form>
+    <!--  Form End  -->
+
   </div>
+  <!-- Main Div End -->
+
 </template>
+
 
 <script>
 import axios from "axios"
 
+
 export default {
-  name: 'HelloWorld',
+  name: 'DushanbeHome',
+
   data() {
     return {
       all_bills: null
@@ -115,7 +136,7 @@ export default {
 
 
   methods: {
-    LoadBill: function () {
+    loadBill: function () {
       // const token = localStorage.getItem("token");
       axios
           .get("http://galib04.pythonanywhere.com/api/bills/", {
@@ -132,14 +153,13 @@ export default {
 
   },
 
+
   created() {
-    this.LoadBill();
+    this.loadBill();
   },
 
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
-</style>
+<style scoped></style>
