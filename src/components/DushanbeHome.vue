@@ -4,8 +4,8 @@
   <!-- Main Div -->
   <div class="hello">
 
-    <!--  Form Start  -->
-    <form class="container mt-5 border border-warning">
+    <!-- BillSubmission Form -->
+    <form class="container mt-5 border border-warning" @submit.prevent="submitBill">
       <h1 class="mb-5 mt-3" style="color: #0061A7">Bill Submissions | Dushanbe</h1>
 
       <!-- Bill-->
@@ -14,7 +14,7 @@
 
         <select class="form-control">
           <option selected disabled>select bill</option>
-          <option v-for="bill in bills" :key="bill.id" :value="bill.id">{{ bill.bill_name }}</option>
+          <option v-for="bill in all_bills" :key="bill.id" :value="bill.id">{{ bill.bill_name }}</option>
         </select>
       </div>
 
@@ -24,7 +24,7 @@
 
         <select class="form-control">
           <option selected disabled>select type</option>
-          <option v-for="type in types" :key="type.id" :value="type.id">{{ type.type_name }}</option>
+          <option v-for="type in all_types" :key="type.id" :value="type.id">{{ type.type_name }}</option>
         </select>
       </div>
 
@@ -34,7 +34,10 @@
 
         <select class="form-control">
           <option selected disabled>select material</option>
-          <option v-for="material in materials" :key="material.id" :value="material.id">{{ material.material_name }}</option>
+          <option v-for="material in all_materials" :key="material.id" :value="material.id">{{
+              material.material_name
+            }}
+          </option>
         </select>
 
 
@@ -122,10 +125,11 @@
       </div>
 
       <!-- Submit Button -->
-      <button type="button" class="btn btn-primary btn-lg mb-4">SUBMIT</button>
+<!--      <button type="button" class="btn btn-primary btn-lg mb-4" @submit.prevent="submitBill">SUBMIT</button>-->
+      <button type="submit" class="btn btn-primary btn-lg mb-4">SUBMIT</button>
 
     </form>
-    <!--  Form End  -->
+    <!-- BillSubmission Form -->
 
   </div>
   <!-- Main Div End -->
@@ -135,8 +139,10 @@
 
 <!-- script section -->
 <script>
+
 /* importing */
 import axios from "axios"
+import Swal from "sweetalert2";
 
 
 /* exporting */
@@ -147,19 +153,24 @@ export default {
     return {
 
       /* Bill List (GET): http://jahidmsk.pythonanywhere.com/api/bills/ */
-      bills: null,
+      all_bills: null,
 
       /* Type List (GET): http://jahidmsk.pythonanywhere.com/api/types/ */
-      types: null,
+      all_types: null,
 
       /* Material List (GET): http://jahidmsk.pythonanywhere.com/api/materials/ */
-      materials: null,
+      all_materials: null,
 
+      /* Create Bill Submissions (POST): http://jahidmsk.pythonanywhere.com/api/bill-submissions/ */
+      bill: null,
+      type: null,
+      material: null,
       submission_date: null,
       work_progress: null,
 
-    }
-  },
+    } // return
+
+  }, // data
 
 
   /* methods */
@@ -176,7 +187,7 @@ export default {
           })
           .then(
               function (response) {
-                this.bills = response.data;
+                this.all_bills = response.data;
               }.bind(this)
           ) // then
 
@@ -193,7 +204,7 @@ export default {
           })
           .then(
               function (response) {
-                this.types = response.data;
+                this.all_types = response.data;
               }.bind(this)
           ) // then
 
@@ -210,11 +221,44 @@ export default {
           })
           .then(
               function (response) {
-                this.materials = response.data;
+                this.all_materials = response.data;
               }.bind(this)
           ) // then
 
     }, // loadMaterial
+
+    /* Bill Submissions (POST): http://jahidmsk.pythonanywhere.com/api/bill-submissions/ */
+    async submitBill() {
+      // const token = localStorage.getItem("token")
+
+      const response = await axios
+      console.log(response)
+          .post("http://jahidmsk.pythonanywhere.com/api/bill-submissions/", {
+
+            // headers: {
+            //   Authorization: `token ${token}`,
+            // },
+
+            bill: this.bill,
+            type: this.type,
+            material: this.material,
+            submission_date: this.submission_date,
+            work_progress: this.work_progress
+
+          })
+          .then((response) => {
+            Swal.fire({
+              icon: "success",
+              text: "Bill Submitted Successfully!",
+            })
+                .then((result) => {
+              this.$router.push("http://localhost:5000/");
+              console.log(result);
+            });
+            console.log(response);
+          })// then
+
+    }, // submitBill
 
   }, // methods
 
