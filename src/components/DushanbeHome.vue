@@ -1,3 +1,4 @@
+<!-- template section -->
 <template>
 
   <!-- Main Div -->
@@ -13,24 +14,17 @@
 
         <select class="form-control">
           <option selected disabled>select bill</option>
-          <option v-for="bill in all_bills" :key="bill.id"
-                  :value="bill.id">
-            {{ bill.bill_name }}
-          </option>
+          <option v-for="bill in bills" :key="bill.id" :value="bill.id">{{ bill.bill_name }}</option>
         </select>
       </div>
 
-      <!-- Topics -->
+      <!-- Type -->
       <div class="form-group">
         <label>Type</label>
 
         <select class="form-control">
           <option selected disabled>select type</option>
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
+          <option v-for="type in types" :key="type.id" :value="type.id">{{ type.type_name }}</option>
         </select>
       </div>
 
@@ -40,25 +34,21 @@
 
         <select class="form-control">
           <option selected disabled>select material</option>
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
+          <option v-for="material in materials" :key="material.id" :value="material.id">{{ material.material_name }}</option>
         </select>
 
 
-        <!-- Serial Number -->
+        <!-- Populated fields -->
         <div class="form-row mt-3">
+
+          <!-- Serial Number -->
           <div class="col-md-4">
             <div class="position-relative form-group">
               <input
-                  placeholder="Serial Number"
-                  id="department_code"
-                  v-model="department_code"
-                  type="text"
                   disabled
+                  id="serial_number"
                   class="form-control"
+                  placeholder="Serial Number"
               />
             </div>
           </div>
@@ -68,10 +58,9 @@
             <div class="position-relative form-group">
               <input
                   disabled
-                  placeholder="Unit"
-                  v-model="department_code"
-                  type="text"
+                  id="unit"
                   class="form-control"
+                  placeholder="Unit"
               />
             </div>
           </div>
@@ -81,36 +70,59 @@
             <div class="form-group">
               <input
                   disabled
-                  placeholder="Quantity"
-                  v-model="department_code"
-                  type="text"
+                  id="quantity"
                   class="form-control"
+                  placeholder="Quantity"
               />
             </div>
           </div>
+
         </div>
+        <!-- Populated fields end -->
+
       </div>
 
-      <!-- Submission Date -->
+      <!-- Submission Date & Work Progress -->
       <div class="position-relative form-group">
-        <label>Date</label>
-        <input type="date">
-      </div>
 
-      <!-- Work Progress -->
-      <div class="position-relative form-group">
-        <label>Work Progress</label>
-        <input
-            placeholder="0"
-            id="department_name"
-            v-model="department_name"
-            type="number"
-            class="form-control"
-            min="0"/>
+        <!-- main row -->
+        <div class="form-row mt-3">
+
+          <!-- Submission Date -->
+          <div class="col-md-6">
+            <div class="position-relative form-group">
+              <label>Date</label>
+              <input
+                  type="date"
+                  id="submission_date"
+                  class="form-control"
+                  v-model="submission_date"
+              />
+            </div>
+          </div>
+
+          <!-- Work Progress -->
+          <div class="col-md-6">
+            <div class="position-relative form-group">
+              <label>Work Progress</label>
+              <input
+                  type="number"
+                  id="work_progress"
+                  class="form-control"
+                  v-model="work_progress"
+                  placeholder="0"
+                  min="0"
+              />
+            </div>
+          </div>
+
+        </div>
+        <!-- main row end -->
+
       </div>
 
       <!-- Submit Button -->
-      <button type="button" class="btn btn-success btn-lg mb-4">SUBMIT</button>
+      <button type="button" class="btn btn-primary btn-lg mb-4">SUBMIT</button>
 
     </form>
     <!--  Form End  -->
@@ -121,45 +133,107 @@
 </template>
 
 
+<!-- script section -->
 <script>
+/* importing */
 import axios from "axios"
 
 
+/* exporting */
 export default {
   name: 'DushanbeHome',
 
   data() {
     return {
-      all_bills: null
+
+      /* Bill List (GET): http://jahidmsk.pythonanywhere.com/api/bills/ */
+      bills: null,
+
+      /* Type List (GET): http://jahidmsk.pythonanywhere.com/api/types/ */
+      types: null,
+
+      /* Material List (GET): http://jahidmsk.pythonanywhere.com/api/materials/ */
+      materials: null,
+
+      submission_date: null,
+      work_progress: null,
+
     }
   },
 
 
+  /* methods */
   methods: {
+
+    /* Bill List (GET): http://jahidmsk.pythonanywhere.com/api/bills/ */
     loadBill: function () {
       // const token = localStorage.getItem("token");
       axios
-          .get("http://galib04.pythonanywhere.com/api/bills/", {
+          .get("http://jahidmsk.pythonanywhere.com/api/bills/", {
             // headers: {
             //   Authorization: token ${token},
             // },
           })
           .then(
               function (response) {
-                this.all_bills = response.data;
+                this.bills = response.data;
               }.bind(this)
-          );
-    },
+          ) // then
 
-  },
+    }, // loadBill
+
+    /* Type List (GET): http://jahidmsk.pythonanywhere.com/api/types/ */
+    loadType: function () {
+      // const token = localStorage.getItem("token");
+      axios
+          .get("http://jahidmsk.pythonanywhere.com/api/types/", {
+            // headers: {
+            //   Authorization: token ${token},
+            // },
+          })
+          .then(
+              function (response) {
+                this.types = response.data;
+              }.bind(this)
+          ) // then
+
+    }, // loadType
+
+    /* Material List (GET): http://jahidmsk.pythonanywhere.com/api/materials/ */
+    loadMaterial: function () {
+      // const token = localStorage.getItem("token");
+      axios
+          .get("http://jahidmsk.pythonanywhere.com/api/materials/", {
+            // headers: {
+            //   Authorization: token ${token},
+            // },
+          })
+          .then(
+              function (response) {
+                this.materials = response.data;
+              }.bind(this)
+          ) // then
+
+    }, // loadMaterial
+
+  }, // methods
 
 
+  /* created cycle */
   created() {
-    this.loadBill();
+    this.loadBill()
+    this.loadType()
+    this.loadMaterial()
   },
+
 
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+
+<!-- css section -->
 <style scoped></style>
+
+
+
+

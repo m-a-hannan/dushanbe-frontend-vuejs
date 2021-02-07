@@ -7,7 +7,7 @@
 //
 //
 // /* inserting VueRouter to the Vue framework */
-// Vue.use(VueRouter);
+// // Vue.use(VueRouter);
 //
 //
 // /* array of paths */

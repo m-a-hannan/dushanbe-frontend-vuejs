@@ -1,8 +1,10 @@
+/* importing */
 import Vue from 'vue'
 import App from './App.vue'
 import { createApp } from 'vue'
 
 
+/* configure */
 createApp(App).mount('#app')
 
 
@@ -12,13 +14,14 @@ createApp(App).mount('#app')
 
 
 /* production setting */
-Vue.config.productionTip = false
+// Vue.config.productionTip = false
 
 
 /* Vue framework */
 new Vue({
+
   render: h => h(App),
-  // export const variable array
   // router: router
+
 }).$mount('#app')
 
