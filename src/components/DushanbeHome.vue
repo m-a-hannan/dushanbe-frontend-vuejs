@@ -302,7 +302,8 @@
                                 // title: "Yes...",
                                 text: "You have successfully create a Bill..",
                             });
-                            this.$router.push("#");
+                            // this.$router.push("#");
+                            this.$router.go()
                         }
                     })
                     .catch((error) => {
@@ -331,18 +332,6 @@
 <!-- css section -->
 <style scoped>
 
-    .bs-container.large-bootstrap-select {
-
-    .dropdown-menu {
-        width: 500px;
-
-    li a span.text {
-        word-wrap: break-word;
-        white-space: normal;
-    }
-
-    }
-    }
 </style>
 
 
