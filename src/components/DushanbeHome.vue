@@ -88,7 +88,7 @@
                 :key="material.id"
                 :value="material.id"
               >
-                {{ material.material_name }}
+                {{ material.short_material_name }}
               </option>
 
               <!-- material error handling-->
@@ -400,6 +400,10 @@ body {
 
 .btn-container {
   text-align: right;
+}
+
+.custom-select {
+  text-transform: capitalize;
 }
 
 #submit_button {
