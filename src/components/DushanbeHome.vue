@@ -264,7 +264,8 @@ export default {
           })
           .then(
               function (response) {
-                this.all_materials = response.data;
+                this.all_materials = response.data
+                console.log("--++", this.all_materials)
               }.bind(this)
           ) // then
 
