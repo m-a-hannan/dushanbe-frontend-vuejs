@@ -5,38 +5,67 @@
   <div class="hello">
 
     <!--  Form Start  -->
-    <form class="container mt-5 border border-warning">
-      <h1 class="mb-5 mt-3" style="color: #0061A7">Bill Submissions | Dushanbe</h1>
+    <form  name="bill_form" class="container mt-5 border border-warning" @submit.prevent="submitBillSubmissionForm">
+
+      <!--Name & Logo-->
+      <div class="row">
+        <div class="col-md-11"><h1 class="mb-5 mt-3" style="color: #0061A7">Bill Submissions | Dushanbe</h1></div>
+        <div class="col-md-1">
+          <router-link :to="{ path: '/' }">
+            <img src="https://ludwigpfeiffer.com/wp-content/themes/Ludwig-Pfeiffer_Theme/img/logo.png"
+                 class="mt-3" alt="Dushanbe" width="70" height="70">
+          </router-link>
+        </div>
+      </div>
 
       <!-- Bill-->
       <div class="form-group">
         <label>Bill</label>
-
-        <select class="form-control">
+        <select v-model="bill" class="form-control" :class="{ 'is-invalid': bill_error_data && bill_error_data.bill }">
           <option selected disabled>select bill</option>
-          <option v-for="bill in bills" :key="bill.id" :value="bill.id">{{ bill.bill_name }}</option>
+          <option v-for="bill in all_bills" :key="bill.id" :value="bill.id">{{ bill.bill_name }}</option>
         </select>
+
+        <!-- bill error handling-->
+        <div :class="{ 'invalid-feedback': bill_error_data && bill_error_data.bill }"
+             v-if="bill_error_data && bill_error_data.bill">
+          {{ bill_error_data.bill[0] }}
+        </div>
       </div>
 
       <!-- Type -->
       <div class="form-group">
         <label>Type</label>
-
-        <select class="form-control">
+        <select v-model="type" class="form-control"
+                :class="{ 'is-invalid': bill_error_data && bill_error_data.type }">
           <option selected disabled>select type</option>
-          <option v-for="type in types" :key="type.id" :value="type.id">{{ type.type_name }}</option>
+          <option v-for="type in all_types" :key="type.id" :value="type.id">{{ type.type_name }}</option>
         </select>
+
+        <!-- type error handling-->
+        <div :class="{ 'invalid-feedback': bill_error_data && bill_error_data.type }"
+             v-if="bill_error_data && bill_error_data.type">
+          {{ bill_error_data.type[0] }}
+        </div>
       </div>
 
       <!-- Materials -->
       <div class="position-relative form-group">
         <label>Material</label>
-
-        <select class="form-control">
+        <select class="form-control" v-model="material"
+                :class="{ 'is-invalid': bill_error_data && bill_error_data.material }">
           <option selected disabled>select material</option>
-          <option v-for="material in materials" :key="material.id" :value="material.id">{{ material.material_name }}</option>
-        </select>
+          <option v-for="material in all_materials" :key="material.id" :value="material.id">{{
+              material.material_name
+            }}
+          </option>
 
+          <!-- material error handling-->
+          <div :class="{ 'invalid-feedback': bill_error_data && bill_error_data.material }"
+               v-if="bill_error_data && bill_error_data.material">
+            {{ bill_error_data.material[0] }}
+          </div>
+        </select>
 
         <!-- Populated fields -->
         <div class="form-row mt-3">
@@ -79,7 +108,6 @@
 
         </div>
         <!-- Populated fields end -->
-
       </div>
 
       <!-- Submission Date & Work Progress -->
@@ -97,7 +125,14 @@
                   id="submission_date"
                   class="form-control"
                   v-model="submission_date"
+                  :class="{ 'is-invalid': bill_error_data && bill_error_data.submission_date }"
               />
+
+              <!--Error Handling-->
+              <div :class="{ 'invalid-feedback': bill_error_data && bill_error_data.submission_date }"
+                   v-if="bill_error_data && bill_error_data.submission_date">
+                {{ bill_error_data.submission_date[0] }}
+              </div>
             </div>
           </div>
 
@@ -112,17 +147,25 @@
                   v-model="work_progress"
                   placeholder="0"
                   min="0"
+                  :class="{ 'is-invalid': bill_error_data && bill_error_data.work_progress }"
               />
+
+              <!--Error Handling-->
+              <div :class="{ 'invalid-feedback': bill_error_data && bill_error_data.work_progress }"
+                   v-if="bill_error_data && bill_error_data.work_progress">
+                {{ bill_error_data.work_progress[0] }}
+              </div>
             </div>
           </div>
 
         </div>
-        <!-- main row end -->
+        <!-- Date & Work Progress end -->
 
       </div>
+      <!-- main row end -->
 
       <!-- Submit Button -->
-      <button type="button" class="btn btn-primary btn-lg mb-4">SUBMIT</button>
+      <button @submit.prevent="submitBillSubmissionForm" id="submit_button" class="mb-4 btn btn-primary btn-lg">Submit</button>
 
     </form>
     <!--  Form End  -->
@@ -135,37 +178,48 @@
 
 <!-- script section -->
 <script>
-/* importing */
+
+// importing
 import axios from "axios"
+import Swal from "sweetalert2"
+// import $ from 'jquery'
 
 
-/* exporting */
+// exporting
 export default {
   name: 'DushanbeHome',
 
   data() {
     return {
 
-      /* Bill List (GET): http://jahidmsk.pythonanywhere.com/api/bills/ */
-      bills: null,
+      // GET API data
+      all_bills: null,
+      all_types: null,
+      all_materials: null,
 
-      /* Type List (GET): http://jahidmsk.pythonanywhere.com/api/types/ */
-      types: null,
-
-      /* Material List (GET): http://jahidmsk.pythonanywhere.com/api/materials/ */
-      materials: null,
-
+      // POST API data
+      bill: null,
+      type: null,
+      material: null,
       submission_date: null,
       work_progress: null,
 
-    }
-  },
+      // Field Validations
+      bill_error_data: {
+        bill: null,
+        type: null,
+        material: null,
+        submission_date: null,
+        work_progress: null,
+      },
 
+    } // return
+  }, // data
 
-  /* methods */
+  // methods
   methods: {
 
-    /* Bill List (GET): http://jahidmsk.pythonanywhere.com/api/bills/ */
+    // Bill List (GET): http://jahidmsk.pythonanywhere.com/api/bills/
     loadBill: function () {
       // const token = localStorage.getItem("token");
       axios
@@ -176,13 +230,13 @@ export default {
           })
           .then(
               function (response) {
-                this.bills = response.data;
+                this.all_bills = response.data;
               }.bind(this)
           ) // then
 
     }, // loadBill
 
-    /* Type List (GET): http://jahidmsk.pythonanywhere.com/api/types/ */
+    // Type List (GET): http://jahidmsk.pythonanywhere.com/api/types/
     loadType: function () {
       // const token = localStorage.getItem("token");
       axios
@@ -193,13 +247,13 @@ export default {
           })
           .then(
               function (response) {
-                this.types = response.data;
+                this.all_types = response.data;
               }.bind(this)
           ) // then
 
     }, // loadType
 
-    /* Material List (GET): http://jahidmsk.pythonanywhere.com/api/materials/ */
+    // Material List (GET): http://jahidmsk.pythonanywhere.com/api/materials/
     loadMaterial: function () {
       // const token = localStorage.getItem("token");
       axios
@@ -210,20 +264,65 @@ export default {
           })
           .then(
               function (response) {
-                this.materials = response.data;
+                this.all_materials = response.data;
               }.bind(this)
           ) // then
 
     }, // loadMaterial
 
+    // Display today's date into 'submission_date' field
+    todayDate: function() {
+      this.submission_date = new Date().toISOString().substr(0, 10)
+      // $("#submission_date").value = submission_date
+
+    }, // todayDate()
+
+    // Bill Submission (POST): http://jahidmsk.pythonanywhere.com/api/bill-submissions/
+    async submitBillSubmissionForm() {
+
+      // const token = localStorage.getItem("token");
+
+      const response = await axios
+          .post("http://jahidmsk.pythonanywhere.com/api/bill-submissions/", {
+
+            // headers: {
+            //     Authorization: `token ${token}`,
+            // },
+
+            bill: this.bill,
+            type: this.type,
+            material: this.material,
+            submission_date: this.submission_date,
+            work_progress: this.work_progress,
+
+          })
+          .then((response) => {
+            if (response.status === 201) {
+              Swal.fire({
+                icon: "success",
+                // title: "Yes...",
+                text: "Bill Submitted Successfully!",
+              })
+              // this.$router.push("#");
+              // this.$router.go()
+            }
+          })
+          .catch((error) => {
+            this.bill_error_data = error.response.data
+            console.log("--++", error.response)
+          })
+      console.log(response)
+    }, // submitBillSubmissionForm
+
   }, // methods
 
 
-  /* created cycle */
+  // created cycle
   created() {
     this.loadBill()
     this.loadType()
     this.loadMaterial()
+    this.todayDate()
   },
 
 
@@ -232,7 +331,13 @@ export default {
 
 
 <!-- css section -->
-<style scoped></style>
+<style scoped>
+
+  #submit_button{
+    background-color: #0061A7
+  }
+
+</style>
 
 
 

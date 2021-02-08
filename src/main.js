@@ -1,11 +1,13 @@
 /* importing */
-import Vue from 'vue'
+// import Vue from 'vue'
 import App from './App.vue'
 import { createApp } from 'vue'
+// import router from "./routers/router"
 
 
 /* configure */
 createApp(App).mount('#app')
+// createApp(App).use(router).mount('#app')
 
 
 /* custom route file */
@@ -17,11 +19,11 @@ createApp(App).mount('#app')
 // Vue.config.productionTip = false
 
 
-/* Vue framework */
-new Vue({
-
-  render: h => h(App),
-  // router: router
-
-}).$mount('#app')
+// /* Vue framework */
+// new Vue({
+//
+//   render: h => h(App),
+//   // router: router
+//
+// }).$mount('#app')
 
