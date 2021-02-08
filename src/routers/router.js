@@ -3,16 +3,17 @@
 // import VueRouter from 'vue-router'
 //
 // /* custom components */
-// import DushanbeHome from "@/components/DushanbeHome";
+// // import DushanbeHome from "@/components/DushanbeHome";
+// import Home from "@/components/Home";
 //
 //
 // /* inserting VueRouter to the Vue framework */
-// // Vue.use(VueRouter);
+// Vue.use(VueRouter);
 //
 //
 // /* array of paths */
 // const routes = [
-//     {path: '/', component: DushanbeHome, name: 'DushanbeHome'},
+//     {path: '/home', component: Home, name: 'Home'},
 // ]
 //
 //
