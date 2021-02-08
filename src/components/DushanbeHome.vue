@@ -385,6 +385,11 @@ body {
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
 }
 
+label {
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
 .header img {
   width: 50px;
   height: auto;
