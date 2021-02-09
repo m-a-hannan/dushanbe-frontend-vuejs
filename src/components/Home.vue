@@ -1,40 +1,13 @@
-<!-- template section -->
 <template>
-
-  <!-- Main Div -->
-  <div>
-    <h1 style="color: red">HOME</h1>
-    <h1 style="color: red">{{hello}}</h1>
-  </div>
-  <!-- Main Div End -->
-
+    <h1>This is Router Home component</h1>
 </template>
 
-
-<!-- script section -->
 <script>
-
-// exporting
-export default {
-  name: 'Home',
-
-  data() {
-    return {
-
-      hello: "HELLO",
-
-    } // return
-  }, // data
-
-}
+    export default {
+        name: "Home"
+    }
 </script>
 
-
-<!-- css section -->
 <style scoped>
 
 </style>
-
-
-
-
