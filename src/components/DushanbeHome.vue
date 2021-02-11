@@ -1,15 +1,19 @@
 <!-- template section -->
 <template>
+
+  <!-- main container start -->
   <div class="main-container">
+
     <!-- Main Div -->
     <div class="container">
+
       <!--  Form Start  -->
-      <!-- <div class="card-header"></div> -->
       <form
         name="bill_form"
         class="form rounded bg-white"
         @submit.prevent="submitBillSubmissionForm"
       >
+        <!-- logo -->
         <div class="card-header bg-white">
           <div class="header d-flex align-items-center">
             <router-link :to="{ path: '/' }">
@@ -21,10 +25,16 @@
             <h1 class="">Bill Submissions | Dushanbe</h1>
           </div>
         </div>
+        <!-- logo end -->
+
+        <!-- card-body start -->
         <div class="card-body">
+
           <!-- Bill-->
           <div class="form-group">
+
             <label>Bill</label>
+
             <select
               v-model="bill"
               class="custom-select"
@@ -76,13 +86,15 @@
           <div class="form-group">
             <label>Material</label>
             <select
+                disabled
               class="custom-select"
               v-model="material"
               :class="{
                 'is-invalid': bill_error_data && bill_error_data.material,
               }"
+                required
             >
-              <option selected disabled>select material</option>
+<!--              <option selected>select material</option>-->
               <option
                 v-for="material in all_materials"
                 :key="material.id"
@@ -91,7 +103,7 @@
                 {{ material.short_material_name }}
               </option>
 
-              <!-- material error handling-->
+              <!-- material error handling -->
               <div
                 :class="{
                   'invalid-feedback':
@@ -105,6 +117,7 @@
 
             <!-- Populated fields -->
             <div class="form-row mt-3">
+
               <!-- Serial Number -->
               <div class="col-md-4">
                 <div class="form-group mb-lg-0">
@@ -140,8 +153,10 @@
                   />
                 </div>
               </div>
+
             </div>
             <!-- Populated fields end -->
+
           </div>
 
           <!-- Submission Date & Work Progress -->
@@ -221,16 +236,23 @@
             </button>
           </div>
         </div>
+        <!-- card-body end -->
+
       </form>
       <!--  Form End  -->
+
     </div>
     <!-- Main Div End -->
+
   </div>
+  <!-- main container end -->
+
 </template>
 
 
 <!-- script section -->
 <script>
+
 // importing
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -358,17 +380,20 @@ export default {
 
   // created cycle
   created() {
-    this.loadBill();
-    this.loadType();
-    this.loadMaterial();
-    this.todayDate();
-  },
-};
+    this.loadBill()
+    this.loadType()
+    this.loadMaterial()
+    this.todayDate()
+  }// created
+
+} // exporting
+
 </script>
 
 
 <!-- css section -->
 <style>
+
 body {
   width: 100%;
   height: 100%;

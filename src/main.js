@@ -23,7 +23,7 @@ createApp(App).mount('#app')
 // new Vue({
 //
 //   render: h => h(App),
-//   // router: router
+//   router: router
 //
 // }).$mount('#app')
 
