@@ -1,28 +1,30 @@
 <!-- template section -->
 <template>
 
-  <!-- DushanbeHome Component -->
-    <DushanbeHome/>
+  <!-- <DushanbeHome/>-->
 
-<!--  <div id="app"><router-view/></div>-->
+  <!-- hook router -->
+  <div id="app">
+    <router-view/>
+  </div>
+  <!-- hook router end -->
 
 </template>
 
 
 <!-- script section -->
 <script>
-/* importing */
-import DushanbeHome from './components/DushanbeHome.vue'
-// import Home from './components/Home.vue'
+
+// import DushanbeHome from './components/DushanbeHome.vue'
 
 
-/* exporting */
 export default {
   name: 'App',
+
   components: {
-    // Home,
-    DushanbeHome
+    // DushanbeHome,
   }
+
 }
 
 </script>

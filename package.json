@@ -16,7 +16,7 @@
     "sweetalert2": "^10.14.0",
     "vue": "^3.0.0",
     "vue-json-excel": "^0.3.0",
-    "vue-router": "^3.5.1",
+    "vue-router": "^4.0.3",
     "xlsx": "^0.16.9"
   },
   "devDependencies": {
