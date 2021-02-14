@@ -1,23 +1,21 @@
 <!-- template section -->
 <template>
-
   <!-- main div -->
   <div>
-
     <!-- loginContainer -->
     <div class="loginContainer">
-
       <!-- container -->
       <div class="container">
-
         <!-- form-container -->
         <div class="form-container">
-
           <!-- logo-container -->
           <div class="logo-container mb-4 d-flex align-items-center">
-            <img src="https://ludwigpfeiffer.com/wp-content/themes/Ludwig-Pfeiffer_Theme/img/logo.png" alt="Dushanbe"/>
+            <img
+              src="https://ludwigpfeiffer.com/wp-content/themes/Ludwig-Pfeiffer_Theme/img/logo.png"
+              alt="Dushanbe"
+            />
             <div>
-              <h3 class="">Login | DUSHANBE</h3>
+              <h3 class="login-header-text">Login | DUSHANBE</h3>
               <p class="formDescription mb-0">www.ludwigpfeiffer.com</p>
             </div>
           </div>
@@ -25,52 +23,60 @@
 
           <!-- formInput -->
           <div class="formInput">
-
             <!-- login form -->
-            <form style="max-width: 500px; margin: auto" action="#" @submit.prevent="loginSubmit">
-
+            <form
+              style="max-width: 500px; margin: auto"
+              action="#"
+              @submit.prevent="loginSubmit"
+            >
               <!-- username (email) field -->
               <div class="form-group">
-                <input class="form-control" type="email" placeholder="Email" name="email" v-model="username"/>
+                <input
+                  class="form-control"
+                  type="email"
+                  placeholder="Email"
+                  name="email"
+                  v-model="username"
+                />
               </div>
               <!-- username (email) field end -->
 
               <!-- password field -->
               <div class="form-group">
-                <input class="form-control" type="password" placeholder="Password" name="psw" v-model="password"/>
+                <input
+                  class="form-control"
+                  type="password"
+                  placeholder="Password"
+                  name="psw"
+                  v-model="password"
+                />
               </div>
               <!-- password field end -->
 
               <!-- button -->
-              <button @submit.prevent="loginSubmit" type="submit" class="btn">LOGIN</button>
+              <button @submit.prevent="loginSubmit" type="submit" class="btn">
+                LOGIN
+              </button>
               <!-- button end -->
-
             </form>
             <!-- login form end -->
-
           </div>
           <!-- formInput end -->
-
         </div>
         <!-- form-container end -->
-
       </div>
       <!-- container end -->
-
     </div>
     <!-- loginContainer end -->
-
   </div>
   <!-- main div end -->
-
 </template>
 
 
 <!-- script section -->
 <script>
-
-import axios from "axios"
-import * as Swal from "sweetalert2"
+import axios from "axios";
+import * as Swal from "sweetalert2";
 
 export default {
   name: "Login",
@@ -79,56 +85,53 @@ export default {
     return {
       username: null,
       password: null,
-    }
+    };
   }, // data
 
   methods: {
-
     // Login (POST): http://jahidmsk.pythonanywhere.com/api/login/
     loginSubmit() {
       axios
-          .post("http://jahidmsk.pythonanywhere.com/api/login/", {
-            username: this.username,
-            password: this.password,
-          })
-          .then((response) => {
-            localStorage.setItem("id", response.data.id)
-            localStorage.setItem("username", response.data.username)
-            localStorage.setItem("first_name", response.data.first_name)
-            localStorage.setItem("last_name", response.data.last_name)
-            localStorage.setItem("active_status", response.data.active_status)
-            localStorage.setItem("superuser_status", response.data.superuser_status)
-            localStorage.setItem("token", response.data.token)
-            localStorage.setItem("user_permissions", JSON.stringify(response.data.user_permissions))
+        .post("http://jahidmsk.pythonanywhere.com/api/login/", {
+          username: this.username,
+          password: this.password,
+        })
+        .then((response) => {
+          localStorage.setItem("id", response.data.id);
+          localStorage.setItem("username", response.data.username);
+          localStorage.setItem("first_name", response.data.first_name);
+          localStorage.setItem("last_name", response.data.last_name);
+          localStorage.setItem("active_status", response.data.active_status);
+          localStorage.setItem(
+            "superuser_status",
+            response.data.superuser_status
+          );
+          localStorage.setItem("token", response.data.token);
+          localStorage.setItem(
+            "user_permissions",
+            JSON.stringify(response.data.user_permissions)
+          );
 
-            // go to this route after login
-            window.location.href = "/work-submission-create"
+          // go to this route after login
+          window.location.href = "/work-submission-create";
+        }) // then
+        .catch((error) => {
+          Swal.fire({
+            icon: "error",
+            text: "Provided Credentials Are Not Correct! Please Try Again...",
+          }); // swal
 
-          }) // then
-          .catch((error) => {
-
-            Swal.fire({
-              icon: "error",
-              text: "Provided Credentials Are Not Correct! Please Try Again...",
-            }) // swal
-
-            return error.status(400).json({"error": error})
-            // console.log(error)
-
-          }) // catch
-
+          return error.status(400).json({ error: error });
+          // console.log(error)
+        }); // catch
     }, // loginSubmit
-
   }, // methods
-
-} // export default
-
+}; // export default
 </script>
 
 
 <!-- css section -->
 <style scoped>
-
 body {
   width: 100%;
   height: 100%;
@@ -265,7 +268,11 @@ h3 {
     margin-bottom: 15px;
     margin-right: 0;
   }
-
 }
 
+@media (max-width: 320px) {
+  .login-header-text {
+    font-size: 22px;
+  }
+}
 </style>
