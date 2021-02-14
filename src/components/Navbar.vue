@@ -1,13 +1,13 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+  <nav class="navbar navbar-expand-lg bg-white shadow-sm">
     <div class="container main-container my-0">
-      <a class="navbar-brand" href="#">Navbar</a>
+      <a class="navbar-brand text-dark" href="#"> {{ username.username }} </a>
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Home </a>
+        <li class="nav-item">
+          <a href="" class="nav-link">Test 1</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
+          <a href="" class="nav-link">Test 2</a>
         </li>
       </ul>
     </div>
@@ -15,7 +15,9 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: ["username"],
+};
 </script>
 
 <style>

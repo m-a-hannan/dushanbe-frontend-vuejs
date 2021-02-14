@@ -1,6 +1,7 @@
 <!-- template section -->
 <template>
-  <!-- <navbar /> -->
+  <!-- <Navbar :username="{ username }" /> -->
+
   <nav class="navbar navbar-expand-lg bg-white shadow-sm">
     <div class="container main-container my-0">
       <a class="navbar-brand text-dark" href="#">
@@ -28,6 +29,7 @@
       </ul>
     </div>
   </nav>
+
   <!-- main container -->
   <div class="main-container">
     <!-- Username -->
