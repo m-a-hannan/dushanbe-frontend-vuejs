@@ -4,25 +4,20 @@
   <!-- main container -->
   <div class="main-container">
 
-    <!-- Username -->
-    <div class="container">
-      <h3>User: <b style="color: green">{{username}}</b></h3>
+    <div class="mb-4">
+      <!-- Username -->
+      <div class="container d-flex align-items-center justify-content-between">
+        <h5>
+          <i class="fas fa-user-circle"></i>
+          {{ username }}
+        </h5>
+        <div class="btn-container">
+          <button type="button" id="work_details_button" class="btn btn-success mr-2" @click="loadWorkSubmissionDetail(1)">DETAILS</button>
+          <button type="button" id="logout_button" class="btn btn-danger" @click="logout">LOGOUT</button>
+        </div>
+      </div>
+      <!-- Username end-->
     </div>
-    <!-- Username end-->
-    <br>
-
-    <!-- Logout Button -->
-    <div class="btn-container">
-      <button @submit.prevent="" id="logout_button" class="btn btn-danger">LOGOUT</button>
-    </div>
-    <!-- Logout Button end-->
-    <br>
-
-    <!-- Work Details Button -->
-    <div class="btn-container">
-      <button @submit.prevent="" id="work_details_button" class="btn btn-warning">DETAILS</button>
-    </div>
-    <!-- Work Details Button end-->
 
     <!-- main div -->
     <div class="container">
@@ -34,7 +29,8 @@
         <div class="card-header bg-white">
           <div class="header d-flex align-items-center">
             <router-link :to="{ path: '/form' }">
-              <img src="https://ludwigpfeiffer.com/wp-content/themes/Ludwig-Pfeiffer_Theme/img/logo.png" alt="Dushanbe"/>
+              <img src="https://ludwigpfeiffer.com/wp-content/themes/Ludwig-Pfeiffer_Theme/img/logo.png"
+                   alt="Dushanbe"/>
             </router-link>
             <h1 class="">Work Submissions | Dushanbe</h1>
           </div>
@@ -246,7 +242,8 @@
 
           <!-- Submit Button -->
           <div class="btn-container">
-            <button @submit.prevent="submitBillSubmissionForm" id="submit_button" class="btn btn-primary">SUBMIT</button>
+            <button @submit.prevent="submitBillSubmissionForm" id="submit_button" class="btn btn-primary">SUBMIT
+            </button>
           </div>
           <!-- Submit Button end-->
 
@@ -285,6 +282,7 @@ export default {
       all_materials: null,
 
       username: localStorage.getItem("username"),
+      id: localStorage.getItem("id"),
 
       serial_no: null,
       unit: null,
@@ -317,7 +315,7 @@ export default {
       const token = localStorage.getItem("token")
       axios
           .get("http://jahidmsk.pythonanywhere.com/api/bills/", {
-          // .get("bills/", {
+            // .get("bills/", {
             headers: {
               Authorization: `token ${token}`,
             },
@@ -416,7 +414,8 @@ export default {
 
               }.bind(this)
           ) // then
-    }, // loadMaterial
+
+    }, // loadMaterialData
 
 
     // Display today's date into 'submission_date' field
@@ -511,24 +510,64 @@ export default {
       //       this.$router.go()
       //       console.log(response)
       //     })
-          // .then((response) => {
-          //   Swal.fire({
-          //     icon: "success",
-          //     // title: "Yes...",
-          //     text: "You have successfully added work",
-          //   }).then((result) => {
-          //     // this.$router.push("user-list");
-          //     this.$router.go()
-          //     console.log(result);
-          //   });
-          //   console.log(response);
-          // })
-          // .catch((error) => {
-          //   this.bill_error_data = error.response.data;
-          //   console.log("--++", error.response);
-          // });
+      // .then((response) => {
+      //   Swal.fire({
+      //     icon: "success",
+      //     // title: "Yes...",
+      //     text: "You have successfully added work",
+      //   }).then((result) => {
+      //     // this.$router.push("user-list");
+      //     this.$router.go()
+      //     console.log(result);
+      //   });
+      //   console.log(response);
+      // })
+      // .catch((error) => {
+      //   this.bill_error_data = error.response.data;
+      //   console.log("--++", error.response);
+      // });
 
     }, // submitBillSubmissionForm
+
+
+    logout() {
+      const token = localStorage.getItem("token");
+      axios
+          .get("http://jahidmsk.pythonanywhere.com/api/work-submissions/logout/", {
+            headers: {
+              Authorization: `token ${token}`,
+            },
+          })
+          .then((res) => {
+            console.log(res.data);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      localStorage.removeItem("token");
+      localStorage.clear();
+      this.$router.push("/");
+    }, // logout
+
+
+    // Work Submission Detail (GET): http://jahidmsk.pythonanywhere.com/api/work-submissions/1/
+    loadWorkSubmissionDetail: function (id) {
+      const token = localStorage.getItem("token")
+      axios
+          .get("http://jahidmsk.pythonanywhere.com/api/work-submissions/" + id, {
+            headers: {
+              Authorization: `token ${token}`,
+            }, // headers
+            params: {
+              bill: this.bill,
+            }, // params
+          })
+          .then(
+              function (response) {
+                this.all_types = response.data
+              }.bind(this)
+          ) // then
+    }, // loadType
 
   }, // methods
 

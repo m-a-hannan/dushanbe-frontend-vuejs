@@ -1,42 +1,42 @@
 <template>
   <div>
     <div class="loginContainer">
+
       <div class="container">
-        <div class="row">
-          <div class="col-md-4"></div>
-          <div class="col-md-8"></div>
-        </div>
-        <div class="row">
 
-          <div class="col-md-12">
-            <div class="form-container">
-              <h3 class="text-center mb-4 ml-4">Welcome Back!</h3>
-              <p class="formDescription">Please Login With Your Email and Password</p>
-              <div class="formInput">
-                <form style="max-width: 500px; margin: auto" action="#" @submit.prevent="handleSubmit">
-                  <div class="input-container">
-                    <i class="fa fa-envelope icon"></i>
-                    <input class="input-field" type="email" placeholder="Email" name="email" v-model="username"/>
-<!--                    <input class="input-field" type="text" placeholder="Email" name="email" v-model="username"/>-->
-                  </div>
-
-                  <div class="input-container">
-                    <i class="fa fa-key icon"></i>
-                    <input class="input-field" type="password" placeholder="Password" name="psw" v-model="password"/>
-                  </div>
-
-                  <button type="submit" class="btn">Sign in</button>
-                  <!--                <p class="forgot mt-4" align="center">-->
-                  <!--                  <a href="#">Forgot Password?</a>-->
-                  <!--                </p>-->
-                </form>
-              </div>
+        <div class="form-container">
+          <div class="logo-container mb-4 d-flex align-items-center">
+            <img src="https://ludwigpfeiffer.com/wp-content/themes/Ludwig-Pfeiffer_Theme/img/logo.png" alt="Dushanbe"/>
+            <div>
+              <h3 class="">Login | DUSHANBE</h3>
+<!--              <p class="formDescription mb-0">Please Login With Your Email and Password</p>-->
+              <p class="formDescription mb-0">www.ludwigpfeiffer.com</p>
             </div>
           </div>
+          <div class="formInput">
+            <form style="max-width: 500px; margin: auto" action="#" @submit.prevent="handleSubmit">
+              <div class="form-group">
+                <input class="form-control" type="email" placeholder="Email" name="email" v-model="username"/>
+                <!-- <input class="input-field" type="text" placeholder="Email" name="email" v-model="username"/>-->
+              </div>
+
+              <div class="form-group">
+                <input class="form-control" type="password" placeholder="Password" name="psw" v-model="password"/>
+              </div>
+
+              <button type="submit" class="btn">Sign in</button>
+              <!--                <p class="forgot mt-4" align="center">-->
+              <!--                  <a href="#">Forgot Password?</a>-->
+              <!--                </p>-->
+            </form>
+          </div>
         </div>
+
       </div>
+
     </div>
   </div>
+
 </template>
 
 <script>
@@ -83,8 +83,11 @@ export default {
 </script>
 
 <style scoped>
+
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  width: 100%;
+  height: 100%;
+  background-color: #fafafa;
 }
 
 * {
@@ -95,21 +98,25 @@ body {
   height: 100vh;
   display: flex;
   align-items: center;
-  background: #fdfdfd;
+  justify-content: center;
 }
 
 .form-container {
-  margin-top: 70px;
-  margin-left: 10px;
+  width: 600px;
+  margin: 50px auto;
+  padding: 100px 80px;
+  /*text-align: center;*/
+  background: #ffffff;
+  border-radius: 5px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
 }
 
 .formInput {
-  margin-top: 50px;
+  margin-top: 10px;
 }
 
 .formDescription {
-  margin: 20px 20px 40px 20px;
-  text-align: center;
+  /*margin-bottom: 20px;*/
 }
 
 .ImageContainer {
@@ -118,7 +125,8 @@ body {
 }
 
 h3 {
-  color: #cc99ff;
+  color: #0061a7;
+  text-transform: uppercase;
 }
 
 .input-container {
@@ -156,7 +164,6 @@ h3 {
 } */
 /* Set a style for the submit button */
 .btn {
-  float: right;
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
@@ -165,32 +172,18 @@ h3 {
   justify-content: center;
   align-items: center;
   padding: 0 10px;
-  min-width: 160px;
-  height: 50px;
-  background-color: #cc99ff;
-  border-radius: 25px;
-  font-family: Poppins-Regular;
+  width: 100%;
+  height: 40px !important;
+  background-color: #0061a7;
+  border-radius: 5px;
   font-size: 16px;
   color: #fff;
-  line-height: 1.2;
   -webkit-transition: all 0.4s;
   -o-transition: all 0.4s;
   -moz-transition: all 0.4s;
   transition: all 0.4s;
-  margin-top: 50px;
-  cursor: pointer;
-  width: 90%;
-  /* background-color: #cc99ff;
-  color: white;
-  padding: 15px 20px;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  opacity: 0.9;
-    border: none;
-  border-bottom: solid 1px rgba(0, 0, 0, 0.1);
   margin-top: 20px;
-   */
+  cursor: pointer;
 }
 
 .btn:hover {
@@ -204,99 +197,31 @@ h3 {
   margin-top: 50px !important;
 }
 
-/* @import "../main.css";
-    @import url("https://fonts.googleapis.com/css?family=Montserrat:400,800");
-    body {
-        background-color: #F3EBF6;
-        font-family: 'Ubuntu', sans-serif;
-    }
-    .main {
-        background-color: #FFFFFF;
-        width: 400px;
-        height: 400px;
-        margin: 13em auto;
-        border-radius: 1.5em;
-        box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
-    }
-    .sign {
-        padding-top: 40px;
-        color: #8C55AA;
-        font-family: 'Ubuntu', sans-serif;
-        font-weight: bold;
-        font-size: 23px;
-    }
-    .un {
-        width: 76%;
-        color: rgb(38, 50, 56);
-        font-weight: 700;
-        font-size: 14px;
-        letter-spacing: 1px;
-        background: rgba(136, 126, 126, 0.04);
-        padding: 10px 20px;
-        border: none;
-        border-radius: 20px;
-        outline: none;
-        box-sizing: border-box;
-        border: 2px solid rgba(0, 0, 0, 0.02);
-        margin-bottom: 50px;
-        margin-left: 46px;
-        text-align: center;
-        margin-bottom: 27px;
-        font-family: 'Ubuntu', sans-serif;
-    }
-    form.form1 {
-        padding-top: 40px;
-    }
-    .pass {
-        width: 76%;
-        color: rgb(38, 50, 56);
-        font-weight: 700;
-        font-size: 14px;
-        letter-spacing: 1px;
-        background: rgba(136, 126, 126, 0.04);
-        padding: 10px 20px;
-        border: none;
-        border-radius: 20px;
-        outline: none;
-        box-sizing: border-box;
-        border: 2px solid rgba(0, 0, 0, 0.02);
-        margin-bottom: 50px;
-        margin-left: 46px;
-        text-align: center;
-        margin-bottom: 27px;
-        font-family: 'Ubuntu', sans-serif;
-    }
-    .un:focus, .pass:focus {
-        border: 2px solid rgba(0, 0, 0, 0.18) !important;
-    }
-    .submit {
-        cursor: pointer;
-        border-radius: 5em;
-        color: #fff;
-        background: linear-gradient(to right, #9C27B0, #E040FB);
-        border: 0;
-        padding-left: 40px;
-        padding-right: 40px;
-        padding-bottom: 10px;
-        padding-top: 10px;
-        font-family: 'Ubuntu', sans-serif;
-        margin-left: 35%;
-        font-size: 13px;
-        box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04);
-    }
-    .forgot {
-        text-shadow: 0px 0px 3px rgba(117, 117, 117, 0.12);
-        color: #E1BEE7;
-        padding-top: 15px;
-    }
-    a {
-        text-shadow: 0px 0px 3px rgba(117, 117, 117, 0.12);
-        color: #E1BEE7;
-        text-decoration: none
-    }
-    @media (max-width: 600px) {
-        .main {
-            border-radius: 0px;
-        }
-    } */
+.logo-container img {
+  width: 50px;
+  height: auto;
+  /*margin-bottom: 15px;*/
+  margin-right: 15px;
+}
+
+@media (max-width: 425px) {
+  .form-container {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .logo-container {
+    flex-direction: column;
+    text-align: center;
+    padding-top: 20px;
+  }
+
+  .logo-container img {
+    margin-bottom: 15px;
+    margin-right: 0;
+  }
+
+}
+
+
 </style>
