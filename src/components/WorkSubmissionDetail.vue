@@ -1,15 +1,34 @@
+<!-- template section -->
 <template>
+
+  <!-- main div -->
   <div>
-    <h1>Work Submission Detail</h1>
+    <h1>Work Detail</h1>
   </div>
+  <!-- main div end -->
+
 </template>
 
+
+<!-- script section -->
 <script>
+
 export default {
-name: "WorkSubmissionDetail"
-}
+
+  name: "WorkSubmissionDetail",
+
+  data() {
+    return {
+
+    }
+  }, // data
+
+} // export default
+
 </script>
 
-<style scoped>
 
-</style>
+<!-- css section -->
+<style scoped></style>
+
+

@@ -28,7 +28,7 @@
         <!-- logo & heading -->
         <div class="card-header bg-white">
           <div class="header d-flex align-items-center">
-            <router-link :to="{ path: '/form' }">
+            <router-link :to="{ path: '/work-submission-create' }">
               <img src="https://ludwigpfeiffer.com/wp-content/themes/Ludwig-Pfeiffer_Theme/img/logo.png"
                    alt="Dushanbe"/>
             </router-link>
@@ -48,7 +48,7 @@
                 v-model="bill"
                 @change="loadType()"
                 class="custom-select"
-                :class="{ 'is-invalid': bill_error_data && bill_error_data.bill }"
+                :class="{ 'is-invalid': field_validation_data && field_validation_data.bill }"
             >
               <option selected disabled>select bill</option>
               <option v-for="bill in all_bills" :key="bill.id" :value="bill.id">
@@ -59,11 +59,11 @@
             <!-- bill error handling-->
             <div
                 :class="{
-                'invalid-feedback': bill_error_data && bill_error_data.bill,
+                'invalid-feedback': field_validation_data && field_validation_data.bill,
               }"
-                v-if="bill_error_data && bill_error_data.bill"
+                v-if="field_validation_data && field_validation_data.bill"
             >
-              {{ bill_error_data.bill[0] }}
+              {{ field_validation_data.bill[0] }}
             </div>
           </div>
           <!-- Bill end -->
@@ -75,7 +75,7 @@
                 v-model="type"
                 class="custom-select"
                 @change="loadMaterial()"
-                :class="{ 'is-invalid': bill_error_data && bill_error_data.type }">
+                :class="{ 'is-invalid': field_validation_data && field_validation_data.type }">
               <option selected disabled>select type</option>
               <option v-for="type in all_types" :key="type.id" :value="type.id">
                 {{ type.short_type_name }}
@@ -85,11 +85,11 @@
             <!-- type error handling-->
             <div
                 :class="{
-                'invalid-feedback': bill_error_data && bill_error_data.type,
+                'invalid-feedback': field_validation_data && field_validation_data.type,
               }"
-                v-if="bill_error_data && bill_error_data.type"
+                v-if="field_validation_data && field_validation_data.type"
             >
-              {{ bill_error_data.type[0] }}
+              {{ field_validation_data.type[0] }}
             </div>
           </div>
           <!-- Type end -->
@@ -101,7 +101,7 @@
                 class="custom-select"
                 v-model="material"
                 @change="loadMaterialData()"
-                :class="{'is-invalid': bill_error_data && bill_error_data.material,}">
+                :class="{'is-invalid': field_validation_data && field_validation_data.material,}">
               <option selected disabled>select material</option>
               <option
                   v-for="material in all_materials"
@@ -114,11 +114,11 @@
               <div
                   :class="{
                   'invalid-feedback':
-                    bill_error_data && bill_error_data.material,
+                    field_validation_data && field_validation_data.material,
                 }"
-                  v-if="bill_error_data && bill_error_data.material"
+                  v-if="field_validation_data && field_validation_data.material"
               >
-                {{ bill_error_data.material[0] }}
+                {{ field_validation_data.material[0] }}
               </div>
             </select>
 
@@ -187,7 +187,7 @@
                       v-model="submission_date"
                       :class="{
                       'is-invalid':
-                        bill_error_data && bill_error_data.submission_date,
+                        field_validation_data && field_validation_data.submission_date,
                     }"
                   />
 
@@ -195,11 +195,11 @@
                   <div
                       :class="{
                       'invalid-feedback':
-                        bill_error_data && bill_error_data.submission_date,
+                        field_validation_data && field_validation_data.submission_date,
                     }"
-                      v-if="bill_error_data && bill_error_data.submission_date"
+                      v-if="field_validation_data && field_validation_data.submission_date"
                   >
-                    {{ bill_error_data.submission_date[0] }}
+                    {{ field_validation_data.submission_date[0] }}
                   </div>
                 </div>
               </div>
@@ -217,7 +217,7 @@
                       min="0"
                       :class="{
                       'is-invalid':
-                        bill_error_data && bill_error_data.work_progress,
+                        field_validation_data && field_validation_data.work_progress,
                     }"
                   />
 
@@ -225,11 +225,11 @@
                   <div
                       :class="{
                       'invalid-feedback':
-                        bill_error_data && bill_error_data.work_progress,
+                        field_validation_data && field_validation_data.work_progress,
                     }"
-                      v-if="bill_error_data && bill_error_data.work_progress"
+                      v-if="field_validation_data && field_validation_data.work_progress"
                   >
-                    {{ bill_error_data.work_progress[0] }}
+                    {{ field_validation_data.work_progress[0] }}
                   </div>
                 </div>
               </div>
@@ -242,7 +242,8 @@
 
           <!-- Submit Button -->
           <div class="btn-container">
-            <button @submit.prevent="submitBillSubmissionForm" id="submit_button" class="btn btn-primary">SUBMIT
+            <button @submit.prevent="submitBillSubmissionForm" id="submit_button" class="btn btn-primary">
+              SUBMIT
             </button>
           </div>
           <!-- Submit Button end-->
@@ -266,13 +267,13 @@
 <script>
 
 import axios from "axios"
-// import Swal from "sweetalert2"
+import Swal from "sweetalert2"
 // import $ from 'jquery'
 
 
 // exporting
 export default {
-  name: "DushanbeHome",
+  name: "WorkSubmissionCreate",
 
   data() {
     return {
@@ -281,9 +282,7 @@ export default {
       all_types: null,
       all_materials: null,
 
-      username: localStorage.getItem("username"),
-      id: localStorage.getItem("id"),
-
+      // populated data
       serial_no: null,
       unit: null,
       quantity: null,
@@ -295,8 +294,8 @@ export default {
       submission_date: null,
       work_progress: null,
 
-      // validations
-      bill_error_data: {
+      // field validation data
+      field_validation_data: {
         bill: null,
         type: null,
         material: null,
@@ -304,117 +303,79 @@ export default {
         work_progress: null,
       },
 
+      // localStorage data
+      username: localStorage.getItem("username"),
+
     } // return
+
   }, // data
 
-  // methods
   methods: {
 
     // Bill List (GET): http://jahidmsk.pythonanywhere.com/api/bills/
     loadBill: function () {
       const token = localStorage.getItem("token")
-      axios
-          .get("http://jahidmsk.pythonanywhere.com/api/bills/", {
-            // .get("bills/", {
-            headers: {
-              Authorization: `token ${token}`,
-            },
-          })
-          .then(
-              function (response) {
-                this.all_bills = response.data
-              }.bind(this)
-          ) // then
+      axios.get("http://jahidmsk.pythonanywhere.com/api/bills/", {
+        headers: {Authorization: `token ${token}`,},
+      }).then(
+          function (response) {
+            this.all_bills = response.data
+          }.bind(this)
+      ) // then
     }, // loadBill
 
 
     // Type List (GET): http://jahidmsk.pythonanywhere.com/api/types/
     loadType: function () {
       const token = localStorage.getItem("token")
-      axios
-          .get("http://jahidmsk.pythonanywhere.com/api/types/", {
-            headers: {
-              Authorization: `token ${token}`,
-            }, // headers
-            params: {
-              bill: this.bill,
-            }, // params
-          })
-          .then(
-              function (response) {
-                this.all_types = response.data
-              }.bind(this)
-          ) // then
+      axios.get("http://jahidmsk.pythonanywhere.com/api/types/", {
+        headers: {Authorization: `token ${token}`,},
+        params: {bill: this.bill,}
+      }).then(
+          function (response) {
+            this.all_types = response.data
+          }.bind(this)
+      ) // then
     }, // loadType
 
 
     // Material List (GET): http://jahidmsk.pythonanywhere.com/api/materials/
     loadMaterial: function () {
       const token = localStorage.getItem("token")
-      axios
-          .get("http://jahidmsk.pythonanywhere.com/api/materials/", {
-            headers: {
-              Authorization: `token ${token}`,
-            }, // headers
-            params: {
-              type: this.type,
-            }, // params
-          })
-          .then(
-              function (response) {
-                this.all_materials = response.data
-
-                console.log('----', this.all_materials)
-
-                // this.serial_no = response.data.map((element) => {
-                //   return element.serial_no
-                // });
-                //
-                // this.unit = response.data.map((element) => {
-                //   return element.unit
-                // });
-                //
-                // this.quantity = response.data.map((element) => {
-                //   return element.quantity
-                // });
-
-              }.bind(this)
-          ) // then
+      axios.get("http://jahidmsk.pythonanywhere.com/api/materials/", {
+        headers: {Authorization: `token ${token}`,},
+        params: {type: this.type,},
+      }).then(
+          function (response) {
+            this.all_materials = response.data
+          }.bind(this)
+      ) // then
     }, // loadMaterial
 
 
+    // Material Data (GET): http://jahidmsk.pythonanywhere.com/api/materials/
     loadMaterialData: function () {
       const token = localStorage.getItem("token")
-      axios
-          .get("http://jahidmsk.pythonanywhere.com/api/materials/", {
-            headers: {
-              Authorization: `token ${token}`,
-            }, // headers
-            params: {
-              type: this.type,
-            }, // params
-          })
-          .then(
-              function (response) {
-                // this.all_materials = response.data
+      axios.get("http://jahidmsk.pythonanywhere.com/api/materials/", {
+        headers: {Authorization: `token ${token}`,},
+        params: {type: this.type,},
+      }).then(
+          function (response) {
 
-                // console.log('----', this.all_materials)
+            this.serial_no = response.data.map((element) => {
+              return element.serial_no
+            });
 
-                this.serial_no = response.data.map((element) => {
-                  return element.serial_no
-                });
+            this.unit = response.data.map((element) => {
+              return element.unit
+            });
 
-                this.unit = response.data.map((element) => {
-                  return element.unit
-                });
+            this.quantity = response.data.map((element) => {
+              return element.quantity
+            });
 
-                this.quantity = response.data.map((element) => {
-                  return element.quantity
-                });
-
-              }.bind(this)
-          ) // then
-
+          }.bind(this)
+      ) // then
     }, // loadMaterialData
 
 
@@ -422,55 +383,15 @@ export default {
     todayDate: function () {
       // const current = new Date()
       // this.submission_date = current.getFullYear() + '-' + (current.getMonth()+1) + '-' + current.getDate()
-      // console.log('--------', this.submission_date)
       this.submission_date = new Date().toISOString().substr(0, 10)
-
-    }, // todayDate()
+    }, // todayDate
 
 
     // Bill Submission (POST): http://jahidmsk.pythonanywhere.com/api/work-submissions/
-    // async submitBillSubmissionForm() {
-    //   const token = localStorage.getItem("token")
-    //
-    //   const response = await axios
-    //       .post("http://jahidmsk.pythonanywhere.com/api/work-submissions/", {
-    //         headers: {
-    //           Authorization: `token ${token}`,
-    //         }, // headers
-    //
-    //         bill: this.bill,
-    //         type: this.type,
-    //         material: this.material,
-    //         submission_date: this.submission_date,
-    //         work_progress: this.work_progress,
-    //       }).then((response) => {
-    //         Swal.fire({
-    //           icon: "success",
-    //           // title: "Yes..."
-    //           text: "Work Submitted Successfully!",
-    //         }).then((result) => {
-    //           this.$router.go()
-    //           console.log(result)
-    //         })
-    //         console.log(response)
-    //       })
-    //       .catch((error) => {
-    //         this.bill_error_data = error.response.data
-    //         console.log("--++", error.response)
-    //       })
-    //   console.log(response)
-    // }, // submitBillSubmissionForm
-
     submitBillSubmissionForm() {
-
       const token = localStorage.getItem("token");
-      console.log('--token--', token)
 
-      const config = {
-        headers: {Authorization: `token ${token}`}
-      }
-
-      console.log('--config--', config)
+      const config = {headers: {Authorization: `token ${token}`}}
 
       const bodyParameters = {
         bill: this.bill,
@@ -478,100 +399,57 @@ export default {
         material: this.material,
         submission_date: this.submission_date,
         work_progress: this.work_progress,
-      };
-
-      console.log('--bodyParameters--', bodyParameters)
+      }
 
       axios.post(
           'http://jahidmsk.pythonanywhere.com/api/work-submissions/',
           bodyParameters,
           config
-      ).then(
-          console.log
-      ).catch(
-          console.log
-      );
+      ).then((response) => {
+        Swal.fire({
+          icon: "success",
+          text: "Work Submitted Successfully!",
+        }).then((result) => {
+          this.$router.go()
+          console.log(result)
+        })
+        console.log(response)
+      }).catch((error) => {
+        this.field_validation_data = error.response.data
+        console.log("--++", error.response)
+      })
+      console.log(response)
 
-
-      // const token = localStorage.getItem("token");
-      // console.log('----', token)
-      // axios
-      //     .post("http://jahidmsk.pythonanywhere.com/api/work-submissions/", {
-      //       headers: {
-      //         Authorization: `token ${token}`,
-      //       },
-      //       bill: this.bill,
-      //       type: this.type,
-      //       material: this.material,
-      //       submission_date: this.submission_date,
-      //       work_progress: this.work_progress,
-      //     })
-      //     .then(response => {
-      //       this.$router.go()
-      //       console.log(response)
-      //     })
-      // .then((response) => {
-      //   Swal.fire({
-      //     icon: "success",
-      //     // title: "Yes...",
-      //     text: "You have successfully added work",
-      //   }).then((result) => {
-      //     // this.$router.push("user-list");
-      //     this.$router.go()
-      //     console.log(result);
-      //   });
-      //   console.log(response);
-      // })
-      // .catch((error) => {
-      //   this.bill_error_data = error.response.data;
-      //   console.log("--++", error.response);
-      // });
+      // axios.post(
+      //     'http://jahidmsk.pythonanywhere.com/api/work-submissions/',
+      //     bodyParameters,
+      //     config
+      // ).then(
+      //     console.log
+      // ).catch(
+      //     console.log
+      // )
 
     }, // submitBillSubmissionForm
 
 
+    // Logout (GET): http://jahidmsk.pythonanywhere.com/api/logout/
     logout() {
-      const token = localStorage.getItem("token");
-      axios
-          .get("http://jahidmsk.pythonanywhere.com/api/work-submissions/logout/", {
-            headers: {
-              Authorization: `token ${token}`,
-            },
-          })
-          .then((res) => {
-            console.log(res.data);
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-      localStorage.removeItem("token");
-      localStorage.clear();
-      this.$router.push("/");
-    }, // logout
-
-
-    // Work Submission Detail (GET): http://jahidmsk.pythonanywhere.com/api/work-submissions/1/
-    loadWorkSubmissionDetail: function (id) {
       const token = localStorage.getItem("token")
-      axios
-          .get("http://jahidmsk.pythonanywhere.com/api/work-submissions/" + id, {
-            headers: {
-              Authorization: `token ${token}`,
-            }, // headers
-            params: {
-              bill: this.bill,
-            }, // params
-          })
-          .then(
-              function (response) {
-                this.all_types = response.data
-              }.bind(this)
-          ) // then
-    }, // loadType
+      axios.get("http://jahidmsk.pythonanywhere.com/api/work-submissions/logout/", {
+        headers: {Authorization: `token ${token}`,},
+      }).then((res) => {
+        console.log(res.data)
+      }).catch((error) => {
+        console.error(error)
+      })
+      localStorage.removeItem("token")
+      localStorage.clear()
+      this.$router.push("/")
+    }, // logout
 
   }, // methods
 
-  // created cycle
   created() {
     this.loadBill()
     // this.loadType()
@@ -579,7 +457,7 @@ export default {
     this.todayDate()
   }, // created
 
-} // export
+} // export default
 
 </script>
 
