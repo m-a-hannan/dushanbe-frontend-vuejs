@@ -4,6 +4,26 @@
   <!-- main container -->
   <div class="main-container">
 
+    <!-- Username -->
+    <div class="container">
+      <h3>User: <b style="color: green">{{username}}</b></h3>
+    </div>
+    <!-- Username end-->
+    <br>
+
+    <!-- Logout Button -->
+    <div class="btn-container">
+      <button @submit.prevent="" id="logout_button" class="btn btn-danger">LOGOUT</button>
+    </div>
+    <!-- Logout Button end-->
+    <br>
+
+    <!-- Work Details Button -->
+    <div class="btn-container">
+      <button @submit.prevent="" id="work_details_button" class="btn btn-warning">DETAILS</button>
+    </div>
+    <!-- Work Details Button end-->
+
     <!-- main div -->
     <div class="container">
 
@@ -13,7 +33,7 @@
         <!-- logo & heading -->
         <div class="card-header bg-white">
           <div class="header d-flex align-items-center">
-            <router-link :to="{ path: '/' }">
+            <router-link :to="{ path: '/form' }">
               <img src="https://ludwigpfeiffer.com/wp-content/themes/Ludwig-Pfeiffer_Theme/img/logo.png" alt="Dushanbe"/>
             </router-link>
             <h1 class="">Work Submissions | Dushanbe</h1>
@@ -30,12 +50,13 @@
 
             <select
                 v-model="bill"
+                @change="loadType()"
                 class="custom-select"
                 :class="{ 'is-invalid': bill_error_data && bill_error_data.bill }"
             >
               <option selected disabled>select bill</option>
               <option v-for="bill in all_bills" :key="bill.id" :value="bill.id">
-                {{ bill.bill_name }}
+                {{ bill.short_bill_name }}
               </option>
             </select>
 
@@ -61,7 +82,7 @@
                 :class="{ 'is-invalid': bill_error_data && bill_error_data.type }">
               <option selected disabled>select type</option>
               <option v-for="type in all_types" :key="type.id" :value="type.id">
-                {{ type.type_name }}
+                {{ type.short_type_name }}
               </option>
             </select>
 
@@ -83,6 +104,7 @@
             <select
                 class="custom-select"
                 v-model="material"
+                @change="loadMaterialData()"
                 :class="{'is-invalid': bill_error_data && bill_error_data.material,}">
               <option selected disabled>select material</option>
               <option
@@ -113,6 +135,7 @@
                   <input
                       disabled
                       id="serial_number"
+                      v-model="serial_no"
                       class="form-control"
                       placeholder="Serial Number"
                   />
@@ -125,6 +148,7 @@
                   <input
                       disabled
                       id="unit"
+                      v-model="unit"
                       class="form-control"
                       placeholder="Unit"
                   />
@@ -137,6 +161,7 @@
                   <input
                       disabled
                       id="quantity"
+                      v-model="quantity"
                       class="form-control"
                       placeholder="Quantity"
                   />
@@ -221,7 +246,7 @@
 
           <!-- Submit Button -->
           <div class="btn-container">
-            <button @submit.prevent="submitBillSubmissionForm" id="submit_button" class="btn btn-primary">Submit</button>
+            <button @submit.prevent="submitBillSubmissionForm" id="submit_button" class="btn btn-primary">SUBMIT</button>
           </div>
           <!-- Submit Button end-->
 
@@ -243,8 +268,8 @@
 <!-- script section -->
 <script>
 
-import axios from "axios";
-import Swal from "sweetalert2";
+import axios from "axios"
+// import Swal from "sweetalert2"
 // import $ from 'jquery'
 
 
@@ -258,6 +283,12 @@ export default {
       all_bills: null,
       all_types: null,
       all_materials: null,
+
+      username: localStorage.getItem("username"),
+
+      serial_no: null,
+      unit: null,
+      quantity: null,
 
       // POST API data
       bill: null,
@@ -280,94 +311,233 @@ export default {
 
   // methods
   methods: {
+
     // Bill List (GET): http://jahidmsk.pythonanywhere.com/api/bills/
     loadBill: function () {
+      const token = localStorage.getItem("token")
       axios
-          .get("http://jahidmsk.pythonanywhere.com/api/bills/", {})
-          .then(
-              function (response) {
-                this.all_bills = response.data;
-              }.bind(this)
-          ); // then
-    }, // loadBill
-
-    // Type List (GET): http://jahidmsk.pythonanywhere.com/api/types/
-    loadType: function () {
-      axios
-          .get("http://jahidmsk.pythonanywhere.com/api/types/", {
-            // headers: {
-            //   Authorization: token ${token},
-            // },
-          })
-          .then(
-              function (response) {
-                this.all_types = response.data;
-              }.bind(this)
-          ); // then
-    }, // loadType
-
-    // Material List (GET): http://jahidmsk.pythonanywhere.com/api/materials/
-    loadMaterial: function () {
-      // const token = localStorage.getItem("token");
-      axios
-          .get("http://jahidmsk.pythonanywhere.com/api/materials/", {
-            params: {
-              type: this.type,
+          .get("http://jahidmsk.pythonanywhere.com/api/bills/", {
+          // .get("bills/", {
+            headers: {
+              Authorization: `token ${token}`,
             },
           })
           .then(
               function (response) {
-                this.all_materials = response.data;
+                this.all_bills = response.data
               }.bind(this)
-          ); // then
+          ) // then
+    }, // loadBill
+
+
+    // Type List (GET): http://jahidmsk.pythonanywhere.com/api/types/
+    loadType: function () {
+      const token = localStorage.getItem("token")
+      axios
+          .get("http://jahidmsk.pythonanywhere.com/api/types/", {
+            headers: {
+              Authorization: `token ${token}`,
+            }, // headers
+            params: {
+              bill: this.bill,
+            }, // params
+          })
+          .then(
+              function (response) {
+                this.all_types = response.data
+              }.bind(this)
+          ) // then
+    }, // loadType
+
+
+    // Material List (GET): http://jahidmsk.pythonanywhere.com/api/materials/
+    loadMaterial: function () {
+      const token = localStorage.getItem("token")
+      axios
+          .get("http://jahidmsk.pythonanywhere.com/api/materials/", {
+            headers: {
+              Authorization: `token ${token}`,
+            }, // headers
+            params: {
+              type: this.type,
+            }, // params
+          })
+          .then(
+              function (response) {
+                this.all_materials = response.data
+
+                console.log('----', this.all_materials)
+
+                // this.serial_no = response.data.map((element) => {
+                //   return element.serial_no
+                // });
+                //
+                // this.unit = response.data.map((element) => {
+                //   return element.unit
+                // });
+                //
+                // this.quantity = response.data.map((element) => {
+                //   return element.quantity
+                // });
+
+              }.bind(this)
+          ) // then
     }, // loadMaterial
+
+
+    loadMaterialData: function () {
+      const token = localStorage.getItem("token")
+      axios
+          .get("http://jahidmsk.pythonanywhere.com/api/materials/", {
+            headers: {
+              Authorization: `token ${token}`,
+            }, // headers
+            params: {
+              type: this.type,
+            }, // params
+          })
+          .then(
+              function (response) {
+                // this.all_materials = response.data
+
+                // console.log('----', this.all_materials)
+
+                this.serial_no = response.data.map((element) => {
+                  return element.serial_no
+                });
+
+                this.unit = response.data.map((element) => {
+                  return element.unit
+                });
+
+                this.quantity = response.data.map((element) => {
+                  return element.quantity
+                });
+
+              }.bind(this)
+          ) // then
+    }, // loadMaterial
+
 
     // Display today's date into 'submission_date' field
     todayDate: function () {
-      this.submission_date = new Date().toISOString().substr(0, 10);
-      // $("#submission_date").value = submission_date
+      // const current = new Date()
+      // this.submission_date = current.getFullYear() + '-' + (current.getMonth()+1) + '-' + current.getDate()
+      // console.log('--------', this.submission_date)
+      this.submission_date = new Date().toISOString().substr(0, 10)
+
     }, // todayDate()
 
-    // Bill Submission (POST): http://jahidmsk.pythonanywhere.com/api/bill-submissions/
-    async submitBillSubmissionForm() {
+
+    // Bill Submission (POST): http://jahidmsk.pythonanywhere.com/api/work-submissions/
+    // async submitBillSubmissionForm() {
+    //   const token = localStorage.getItem("token")
+    //
+    //   const response = await axios
+    //       .post("http://jahidmsk.pythonanywhere.com/api/work-submissions/", {
+    //         headers: {
+    //           Authorization: `token ${token}`,
+    //         }, // headers
+    //
+    //         bill: this.bill,
+    //         type: this.type,
+    //         material: this.material,
+    //         submission_date: this.submission_date,
+    //         work_progress: this.work_progress,
+    //       }).then((response) => {
+    //         Swal.fire({
+    //           icon: "success",
+    //           // title: "Yes..."
+    //           text: "Work Submitted Successfully!",
+    //         }).then((result) => {
+    //           this.$router.go()
+    //           console.log(result)
+    //         })
+    //         console.log(response)
+    //       })
+    //       .catch((error) => {
+    //         this.bill_error_data = error.response.data
+    //         console.log("--++", error.response)
+    //       })
+    //   console.log(response)
+    // }, // submitBillSubmissionForm
+
+    submitBillSubmissionForm() {
+
+      const token = localStorage.getItem("token");
+      console.log('--token--', token)
+
+      const config = {
+        headers: {Authorization: `token ${token}`}
+      }
+
+      console.log('--config--', config)
+
+      const bodyParameters = {
+        bill: this.bill,
+        type: this.type,
+        material: this.material,
+        submission_date: this.submission_date,
+        work_progress: this.work_progress,
+      };
+
+      console.log('--bodyParameters--', bodyParameters)
+
+      axios.post(
+          'http://jahidmsk.pythonanywhere.com/api/work-submissions/',
+          bodyParameters,
+          config
+      ).then(
+          console.log
+      ).catch(
+          console.log
+      );
+
+
       // const token = localStorage.getItem("token");
+      // console.log('----', token)
+      // axios
+      //     .post("http://jahidmsk.pythonanywhere.com/api/work-submissions/", {
+      //       headers: {
+      //         Authorization: `token ${token}`,
+      //       },
+      //       bill: this.bill,
+      //       type: this.type,
+      //       material: this.material,
+      //       submission_date: this.submission_date,
+      //       work_progress: this.work_progress,
+      //     })
+      //     .then(response => {
+      //       this.$router.go()
+      //       console.log(response)
+      //     })
+          // .then((response) => {
+          //   Swal.fire({
+          //     icon: "success",
+          //     // title: "Yes...",
+          //     text: "You have successfully added work",
+          //   }).then((result) => {
+          //     // this.$router.push("user-list");
+          //     this.$router.go()
+          //     console.log(result);
+          //   });
+          //   console.log(response);
+          // })
+          // .catch((error) => {
+          //   this.bill_error_data = error.response.data;
+          //   console.log("--++", error.response);
+          // });
 
-      const response = await axios
-          .post("http://jahidmsk.pythonanywhere.com/api/bill-submissions/", {
-            // headers: {
-            //     Authorization: `token ${token}`,
-            // },
-
-            bill: this.bill,
-            type: this.type,
-            material: this.material,
-            submission_date: this.submission_date,
-            work_progress: this.work_progress,
-          }).then((response) => {
-            Swal.fire({
-              icon: "success",
-              // title: "Yes..."
-              text: "Bill Submitted Successfully!",
-            }).then((result) => {
-              this.$router.go()
-              console.log(result);
-            });
-            console.log(response);
-          })
-          .catch((error) => {
-            this.bill_error_data = error.response.data;
-            console.log("--++", error.response);
-          });
-      console.log(response);
     }, // submitBillSubmissionForm
+
   }, // methods
 
   // created cycle
   created() {
-    this.loadBill();
-    this.loadType();
-    this.loadMaterial();
-    this.todayDate();
+    this.loadBill()
+    // this.loadType()
+    // this.loadMaterial()
+    this.todayDate()
   }, // created
 
 } // export

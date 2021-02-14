@@ -1,11 +1,13 @@
 import {createRouter, createWebHistory} from 'vue-router'
-import DushanbeHome from "../components/DushanbeHome";
+import Login from "@/components/Login"
+import DushanbeHome from "../components/DushanbeHome"
 
 
 // custom routes
 const routes = [
 
-    {path: '/', name: 'DushanbeHome', component: DushanbeHome},
+    {path: '/', name: 'Login', component: Login},
+    {path: '/form', name: 'DushanbeHome', component: DushanbeHome},
 
 ]
 
