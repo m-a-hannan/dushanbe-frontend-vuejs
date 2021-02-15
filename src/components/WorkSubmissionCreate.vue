@@ -384,7 +384,7 @@ export default {
       // const current = new Date()
       // this.submission_date = current.getFullYear() + '-' + (current.getMonth()+1) + '-' + current.getDate()
       this.submission_date = new Date().toISOString().substr(0, 10)
-    }, // todayDate
+    }, // todayDate()
 
 
     // Bill Submission (POST): http://jahidmsk.pythonanywhere.com/api/work-submissions/
@@ -408,6 +408,7 @@ export default {
       ).then((response) => {
         Swal.fire({
           icon: "success",
+          // title: "Yes..."
           text: "Work Submitted Successfully!",
         }).then((result) => {
           this.$router.go()
@@ -418,7 +419,7 @@ export default {
         this.field_validation_data = error.response.data
         console.log("--++", error.response)
       })
-      console.log(response)
+      // console.log(response)
 
       // axios.post(
       //     'http://jahidmsk.pythonanywhere.com/api/work-submissions/',
