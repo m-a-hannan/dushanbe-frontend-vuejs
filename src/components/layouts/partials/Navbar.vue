@@ -1,43 +1,46 @@
+<!-- template section -->
 <template>
 
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg bg-white shadow-sm">
+    <!-- container -->
     <div class="container main-container my-0">
       <!-- <a class="navbar-brand text-dark" href="#" v-if="first_name && last_name"> -->
       <a class="navbar-brand text-dark" href="#">
       <!-- <i class="fas fa-user-circle"></i> {{ first_name + " " + last_name }} -->
-        <i class="fas fa-user-circle"></i> {{username}}
-      </a>
+        <i class="fas fa-user-circle"></i> {{username}}</a>
+
+      <!-- Details & Logout section -->
       <ul class="navbar-nav ml-auto">
+
+        <!-- Work Details -->
         <li class="nav-item">
-          <a
-              href=""
-              class="nav-link"
-              id="work_details_button"
-              @click="loadWorkSubmissionDetail(1)"
-          >Details</a
-          >
+          <!-- <router-link class="nav-link" id="work_details_button" :to="{name: 'WorkSubmissionList', params: { id: user.id },}">Details</router-link>-->
+          <router-link class="nav-link" id="work_details_button" :to="{name: 'WorkSubmissionList',}" target="_blank">List</router-link>
+          <!-- <a href="" class="nav-link" id="work_details_button">Details</a>-->
         </li>
+
+        <!-- Logout -->
         <li class="nav-item">
-          <a
-              href=""
-              class="nav-link logout-btn"
-              id="logout_button"
-              @click="logout"
-          >Logout</a
-          >
+          <a href="" class="nav-link logout-btn" id="logout_button" @click="logout">Logout</a>
         </li>
+
       </ul>
+      <!-- Details & Logout section end -->
+
     </div>
+    <!-- container end -->
   </nav>
   <!-- Navbar end -->
 
 </template>
 
 
+<!-- script section -->
 <script>
 
 import axios from "axios"
+
 
 export default {
 
@@ -45,6 +48,7 @@ export default {
 
   data() {
     return {
+      // localStorage data
       username: localStorage.getItem("username"),
       first_name : localStorage.getItem("first_name"),
       last_name: localStorage.getItem("last_name"),
@@ -72,11 +76,13 @@ export default {
       this.$router.push("/")
     }, // logout
 
-  } // methods
+  }, // methods
 
 } // export default
+
 </script>
 
 
+<!-- css section -->
 <style scoped></style>
 

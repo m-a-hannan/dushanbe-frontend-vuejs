@@ -1,6 +1,7 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import Login from "@/views/Login"
 import WorkSubmissionCreate from "@/views/WorkSubmissionCreate"
+import WorkSubmissionList from "@/components/layouts/partials/work_submission_create/WorkSubmissionList";
 import WorkSubmissionDetail from "@/components/layouts/partials/work_submission_create/WorkSubmissionDetail"
 
 
@@ -9,6 +10,7 @@ const routes = [
 
     {path: '/', name: 'Login', component: Login},
     {path: '/work-submission-create', name: 'WorkSubmissionCreate', component: WorkSubmissionCreate},
+    {path: '/work-submission-list', name: 'WorkSubmissionList', component: WorkSubmissionList},
     {path: '/work-submission-detail/:id', name: 'WorkSubmissionDetail', component: WorkSubmissionDetail},
 
 ]

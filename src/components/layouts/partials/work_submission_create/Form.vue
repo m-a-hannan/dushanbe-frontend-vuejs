@@ -1,14 +1,11 @@
+<!-- template section -->
 <template>
   <!-- main container -->
   <div class="main-container">
     <!-- main div -->
     <div class="container">
       <!-- form start -->
-      <form
-          name="bill_form"
-          class="form rounded bg-white"
-          @submit.prevent="submitBillSubmissionForm"
-      >
+      <form name="bill_form" class="form rounded bg-white" @submit.prevent="submitBillSubmissionForm">
         <!-- logo & heading -->
         <div class="card-header bg-white">
           <div class="header d-flex align-items-center">
@@ -24,6 +21,7 @@
 
         <!-- card body -->
         <div class="card-body">
+
           <!-- Bill-->
           <div class="form-group">
             <label>Bill</label>
@@ -345,6 +343,7 @@ export default {
         .get("http://jahidmsk.pythonanywhere.com/api/materials/", {
           headers: { Authorization: `token ${token}` },
           params: { type: this.type },
+          // params: { id: this.material.id, type: this.type },
         })
         .then(
           function (response) {
@@ -359,21 +358,17 @@ export default {
       axios
         .get("http://jahidmsk.pythonanywhere.com/api/materials/", {
           headers: { Authorization: `token ${token}` },
-          params: { type: this.type },
+          params: {
+            type: this.type,
+          },
         })
         .then(
           function (response) {
-            this.serial_no = response.data.map((element) => {
-              return element.serial_no;
-            });
-
-            this.unit = response.data.map((element) => {
-              return element.unit;
-            });
-
-            this.quantity = response.data.map((element) => {
-              return element.quantity;
-            });
+            response.data.map((element) => {
+              this.serial_no = element.serial_no
+              this.unit = element.unit
+              this.quantity = element.quantity
+            })
           }.bind(this)
         ); // then
     }, // loadMaterialData
@@ -421,15 +416,6 @@ export default {
         });
       // console.log(response)
 
-      // axios.post(
-      //     'http://jahidmsk.pythonanywhere.com/api/work-submissions/',
-      //     bodyParameters,
-      //     config
-      // ).then(
-      //     console.log
-      // ).catch(
-      //     console.log
-      // )
     }, // submitBillSubmissionForm
 
   }, // methods
