@@ -1,81 +1,21 @@
-<!-- template section -->
 <template>
-  <!-- <Navbar :username="{ username }" /> -->
-
-  <nav class="navbar navbar-expand-lg bg-white shadow-sm">
-    <div class="container main-container my-0">
-      <a class="navbar-brand text-dark" href="#">
-        <i class="fas fa-user-circle"></i> {{ username }}
-      </a>
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <a
-            href=""
-            class="nav-link"
-            id="work_details_button"
-            @click="loadWorkSubmissionDetail(1)"
-            >Details</a
-          >
-        </li>
-        <li class="nav-item">
-          <a
-            href=""
-            class="nav-link logout-btn"
-            id="logout_button"
-            @click="logout"
-            >Logout</a
-          >
-        </li>
-      </ul>
-    </div>
-  </nav>
-
   <!-- main container -->
   <div class="main-container">
-    <!-- Username -->
-    <!-- <div class="mb-4">
-      <div class="container d-flex align-items-center justify-content-between">
-        <h5>
-          <i class="fas fa-user-circle"></i>
-          {{ username }}
-        </h5>
-        <div class="btn-container">
-          <button
-            type="button"
-            id="work_details_button"
-            class="btn btn-success mr-2"
-            @click="loadWorkSubmissionDetail(1)"
-          >
-            DETAILS
-          </button>
-          <button
-            type="button"
-            id="logout_button"
-            class="btn btn-danger"
-            @click="logout"
-          >
-            LOGOUT
-          </button>
-        </div>
-      </div>
-    </div> -->
-    <!-- Username end-->
-
     <!-- main div -->
     <div class="container">
       <!-- form start -->
       <form
-        name="bill_form"
-        class="form rounded bg-white"
-        @submit.prevent="submitBillSubmissionForm"
+          name="bill_form"
+          class="form rounded bg-white"
+          @submit.prevent="submitBillSubmissionForm"
       >
         <!-- logo & heading -->
         <div class="card-header bg-white">
           <div class="header d-flex align-items-center">
             <router-link :to="{ path: '/work-submission-create' }">
               <img
-                src="https://ludwigpfeiffer.com/wp-content/themes/Ludwig-Pfeiffer_Theme/img/logo.png"
-                alt="Dushanbe"
+                  src="https://ludwigpfeiffer.com/wp-content/themes/Ludwig-Pfeiffer_Theme/img/logo.png"
+                  alt="Dushanbe"
               />
             </router-link>
             <h1 class="">Work Submissions | Dushanbe</h1>
@@ -89,10 +29,10 @@
             <label>Bill</label>
 
             <select
-              v-model="bill"
-              @change="loadType()"
-              class="custom-select"
-              :class="{
+                v-model="bill"
+                @change="loadType()"
+                class="custom-select"
+                :class="{
                 'is-invalid':
                   field_validation_data && field_validation_data.bill,
               }"
@@ -105,11 +45,11 @@
 
             <!-- bill error handling-->
             <div
-              :class="{
+                :class="{
                 'invalid-feedback':
                   field_validation_data && field_validation_data.bill,
               }"
-              v-if="field_validation_data && field_validation_data.bill"
+                v-if="field_validation_data && field_validation_data.bill"
             >
               {{ field_validation_data.bill[0] }}
             </div>
@@ -120,10 +60,10 @@
           <div class="form-group">
             <label>Type</label>
             <select
-              v-model="type"
-              class="custom-select"
-              @change="loadMaterial()"
-              :class="{
+                v-model="type"
+                class="custom-select"
+                @change="loadMaterial()"
+                :class="{
                 'is-invalid':
                   field_validation_data && field_validation_data.type,
               }"
@@ -136,11 +76,11 @@
 
             <!-- type error handling-->
             <div
-              :class="{
+                :class="{
                 'invalid-feedback':
                   field_validation_data && field_validation_data.type,
               }"
-              v-if="field_validation_data && field_validation_data.type"
+                v-if="field_validation_data && field_validation_data.type"
             >
               {{ field_validation_data.type[0] }}
             </div>
@@ -151,30 +91,30 @@
           <div class="form-group">
             <label>Material</label>
             <select
-              class="custom-select"
-              v-model="material"
-              @change="loadMaterialData()"
-              :class="{
+                class="custom-select"
+                v-model="material"
+                @change="loadMaterialData()"
+                :class="{
                 'is-invalid':
                   field_validation_data && field_validation_data.material,
               }"
             >
               <option selected disabled>select material</option>
               <option
-                v-for="material in all_materials"
-                :key="material.id"
-                :value="material.id"
+                  v-for="material in all_materials"
+                  :key="material.id"
+                  :value="material.id"
               >
                 {{ material.short_material_name }}
               </option>
 
               <!-- material error handling -->
               <div
-                :class="{
+                  :class="{
                   'invalid-feedback':
                     field_validation_data && field_validation_data.material,
                 }"
-                v-if="field_validation_data && field_validation_data.material"
+                  v-if="field_validation_data && field_validation_data.material"
               >
                 {{ field_validation_data.material[0] }}
               </div>
@@ -186,11 +126,11 @@
               <div class="col-md-4">
                 <div class="form-group mb-lg-0">
                   <input
-                    disabled
-                    id="serial_number"
-                    v-model="serial_no"
-                    class="form-control"
-                    placeholder="Serial Number"
+                      disabled
+                      id="serial_number"
+                      v-model="serial_no"
+                      class="form-control"
+                      placeholder="Serial Number"
                   />
                 </div>
               </div>
@@ -199,11 +139,11 @@
               <div class="col-md-4">
                 <div class="form-group mb-lg-0">
                   <input
-                    disabled
-                    id="unit"
-                    v-model="unit"
-                    class="form-control"
-                    placeholder="Unit"
+                      disabled
+                      id="unit"
+                      v-model="unit"
+                      class="form-control"
+                      placeholder="Unit"
                   />
                 </div>
               </div>
@@ -212,11 +152,11 @@
               <div class="col-md-4">
                 <div class="form-group mb-0">
                   <input
-                    disabled
-                    id="quantity"
-                    v-model="quantity"
-                    class="form-control"
-                    placeholder="Quantity"
+                      disabled
+                      id="quantity"
+                      v-model="quantity"
+                      class="form-control"
+                      placeholder="Quantity"
                   />
                 </div>
               </div>
@@ -234,11 +174,11 @@
                 <div class="position-relative form-group mb-lg-0">
                   <label>Date</label>
                   <input
-                    type="date"
-                    id="submission_date"
-                    class="form-control"
-                    v-model="submission_date"
-                    :class="{
+                      type="date"
+                      id="submission_date"
+                      class="form-control"
+                      v-model="submission_date"
+                      :class="{
                       'is-invalid':
                         field_validation_data &&
                         field_validation_data.submission_date,
@@ -247,12 +187,12 @@
 
                   <!--Error Handling-->
                   <div
-                    :class="{
+                      :class="{
                       'invalid-feedback':
                         field_validation_data &&
                         field_validation_data.submission_date,
                     }"
-                    v-if="
+                      v-if="
                       field_validation_data &&
                       field_validation_data.submission_date
                     "
@@ -267,13 +207,13 @@
                 <div class="position-relative form-group mb-0">
                   <label>Work Progress</label>
                   <input
-                    type="number"
-                    id="work_progress"
-                    class="form-control"
-                    v-model="work_progress"
-                    placeholder="0"
-                    min="0"
-                    :class="{
+                      type="number"
+                      id="work_progress"
+                      class="form-control"
+                      v-model="work_progress"
+                      placeholder="0"
+                      min="0"
+                      :class="{
                       'is-invalid':
                         field_validation_data &&
                         field_validation_data.work_progress,
@@ -282,12 +222,12 @@
 
                   <!--Error Handling-->
                   <div
-                    :class="{
+                      :class="{
                       'invalid-feedback':
                         field_validation_data &&
                         field_validation_data.work_progress,
                     }"
-                    v-if="
+                      v-if="
                       field_validation_data &&
                       field_validation_data.work_progress
                     "
@@ -304,9 +244,9 @@
           <!-- Submit Button -->
           <div class="btn-container">
             <button
-              @submit.prevent="submitBillSubmissionForm"
-              id="submit_button"
-              class="btn btn-primary"
+                @submit.prevent="submitBillSubmissionForm"
+                id="submit_button"
+                class="btn btn-primary"
             >
               SUBMIT
             </button>
@@ -325,17 +265,14 @@
 
 <!-- script section -->
 <script>
-import axios from "axios";
-import Swal from "sweetalert2";
+import axios from "axios"
+import Swal from "sweetalert2"
 // import $ from 'jquery'
-// import Navbar from "./Navbar.vue";
+
 
 // exporting
 export default {
-  name: "WorkSubmissionCreate",
-  // components: {
-  //   Navbar,
-  // },
+  name: "Form",
 
   data() {
     return {
@@ -371,6 +308,7 @@ export default {
   }, // data
 
   methods: {
+
     // Bill List (GET): http://jahidmsk.pythonanywhere.com/api/bills/
     loadBill: function () {
       const token = localStorage.getItem("token");
@@ -494,35 +432,19 @@ export default {
       // )
     }, // submitBillSubmissionForm
 
-    // Logout (GET): http://jahidmsk.pythonanywhere.com/api/logout/
-    logout() {
-      const token = localStorage.getItem("token");
-      axios
-        .get(
-          "http://jahidmsk.pythonanywhere.com/api/work-submissions/logout/",
-          {
-            headers: { Authorization: `token ${token}` },
-          }
-        )
-        .then((res) => {
-          console.log(res.data);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-      localStorage.removeItem("token");
-      localStorage.clear();
-      this.$router.push("/");
-    }, // logout
   }, // methods
 
   created() {
-    this.loadBill();
+
+    this.loadBill()
     // this.loadType()
     // this.loadMaterial()
-    this.todayDate();
+    this.todayDate()
+
   }, // created
-}; // export default
+
+} // export default
+
 </script>
 
 
@@ -644,7 +566,3 @@ label {
   }
 }
 </style>
-
-
-
-
