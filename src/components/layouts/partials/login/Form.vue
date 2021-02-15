@@ -39,7 +39,13 @@
                     placeholder="Email"
                     name="email"
                     v-model="username"
-                />
+                    :class="{'is-invalid': login_validation_data && login_validation_data.username}"/>
+
+                 <!--error handling-->
+              <div :class="{'invalid-feedback':login_validation_data && login_validation_data.username}"
+                   v-if="login_validation_data && login_validation_data.username">
+                  {{login_validation_data.username[0] }}
+              </div>
               </div>
               <!-- username (email) field end -->
 
@@ -51,7 +57,12 @@
                     placeholder="Password"
                     name="psw"
                     v-model="password"
-                />
+                    :class="{'is-invalid': login_validation_data && login_validation_data.password}"/>
+
+                <div :class="{'invalid-feedback':login_validation_data && login_validation_data.password}"
+                   v-if="login_validation_data && login_validation_data.password">
+                  {{login_validation_data.password[0] }}
+              </div>
               </div>
               <!-- password field end -->
 
@@ -89,6 +100,11 @@ export default {
     return {
       username: null,
       password: null,
+
+      login_validation_data: {
+        username: null,
+        password: null,
+      },
     };
   }, // data
 
@@ -117,9 +133,10 @@ export default {
             );
 
             // go to this route after login
-            window.location.href = "/work-submission-create";
+            window.location.href = "/work-submission-list";
           }) // then
           .catch((error) => {
+            this.login_validation_data = error.response.data;
             Swal.fire({
               icon: "error",
               text: "Provided Credentials Are Not Correct! Please Try Again...",

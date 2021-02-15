@@ -203,35 +203,19 @@
               <!-- WorkProgress -->
               <div class="col-md-6">
                 <div class="position-relative form-group mb-0">
-                  <label>Work Progress</label>
-                  <input
+                  <label>Work Progress</label> <br>
+                  <input type="range" class="form-range w-100 mt-2" v-model="work_progress">
+                  <p style="position: absolute; right: 0">{{work_progress}}</p>
+
+                  <!--<input
                       type="number"
                       id="work_progress"
                       class="form-control"
                       v-model="work_progress"
                       placeholder="0"
                       min="0"
-                      :class="{
-                      'is-invalid':
-                        field_validation_data &&
-                        field_validation_data.work_progress,
-                    }"
-                  />
+                  />-->
 
-                  <!--Error Handling-->
-                  <div
-                      :class="{
-                      'invalid-feedback':
-                        field_validation_data &&
-                        field_validation_data.work_progress,
-                    }"
-                      v-if="
-                      field_validation_data &&
-                      field_validation_data.work_progress
-                    "
-                  >
-                    {{ field_validation_data.work_progress[0] }}
-                  </div>
                 </div>
               </div>
             </div>
@@ -244,7 +228,7 @@
             <button
                 @submit.prevent="submitBillSubmissionForm"
                 id="submit_button"
-                class="btn btn-primary"
+                class="btn btn-primary mt-1"
             >
               SUBMIT
             </button>
@@ -405,7 +389,8 @@ export default {
             icon: "success",
             text: "Work Submitted Successfully!",
           }).then((result) => {
-            this.$router.go();
+            // this.$router.go();
+            this.$router.push("work-submission-list");
             console.log(result);
           });
           console.log(response);

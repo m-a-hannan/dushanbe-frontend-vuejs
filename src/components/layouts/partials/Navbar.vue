@@ -16,7 +16,7 @@
         <!-- Work Details -->
         <li class="nav-item">
           <!-- <router-link class="nav-link" id="work_details_button" :to="{name: 'WorkSubmissionList', params: { id: user.id },}">Details</router-link>-->
-          <router-link class="nav-link" id="work_details_button" :to="{name: 'WorkSubmissionList',}" target="_blank">List</router-link>
+          <!--<router-link class="nav-link" id="work_details_button" :to="{name: 'WorkSubmissionList',}" target="_blank">List</router-link>-->
           <!-- <a href="" class="nav-link" id="work_details_button">Details</a>-->
         </li>
 
