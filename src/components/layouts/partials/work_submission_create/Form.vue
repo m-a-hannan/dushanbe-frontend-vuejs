@@ -15,7 +15,7 @@
                   alt="Dushanbe"
               />
             </router-link>
-            <h1 class="">Work Submissions | Dushanbe</h1>
+            <h1 class="">Work Submission | Dushanbe</h1>
           </div>
         </div>
 
@@ -203,35 +203,21 @@
               <!-- WorkProgress -->
               <div class="col-md-6">
                 <div class="position-relative form-group mb-0">
-                  <label>Work Progress</label>
-                  <input
+                  <label>Work Progress</label> <br>
+                      <!-- <input type="range" class="form-range w-100 mt-2" v-model="work_progress"> -->
+                      <!-- <p style="position: absolute; right: 0">{{work_progress}}</p> -->
+
+                  <input type="number" id="work_progress" class="form-control" v-model="work_progress" placeholder="0" min="0" step=".01" >
+
+                  <!--<input
                       type="number"
                       id="work_progress"
                       class="form-control"
                       v-model="work_progress"
                       placeholder="0"
                       min="0"
-                      :class="{
-                      'is-invalid':
-                        field_validation_data &&
-                        field_validation_data.work_progress,
-                    }"
-                  />
+                  />-->
 
-                  <!--Error Handling-->
-                  <div
-                      :class="{
-                      'invalid-feedback':
-                        field_validation_data &&
-                        field_validation_data.work_progress,
-                    }"
-                      v-if="
-                      field_validation_data &&
-                      field_validation_data.work_progress
-                    "
-                  >
-                    {{ field_validation_data.work_progress[0] }}
-                  </div>
                 </div>
               </div>
             </div>
@@ -244,7 +230,7 @@
             <button
                 @submit.prevent="submitBillSubmissionForm"
                 id="submit_button"
-                class="btn btn-primary"
+                class="btn btn-primary mt-1"
             >
               SUBMIT
             </button>
@@ -307,11 +293,11 @@ export default {
 
   methods: {
 
-    // Bill List (GET): http://jahidmsk.pythonanywhere.com/api/bills/
+    // Bill List (GET): https://jahidmsk.pythonanywhere.com/api/bills/
     loadBill: function () {
       const token = localStorage.getItem("token");
       axios
-        .get("http://jahidmsk.pythonanywhere.com/api/bills/", {
+        .get("https://jahidmsk.pythonanywhere.com/api/bills/", {
           headers: { Authorization: `token ${token}` },
         })
         .then(
@@ -325,7 +311,7 @@ export default {
     loadType: function () {
       const token = localStorage.getItem("token");
       axios
-        .get("http://jahidmsk.pythonanywhere.com/api/types/", {
+        .get("https://jahidmsk.pythonanywhere.com/api/types/", {
           headers: { Authorization: `token ${token}` },
           params: { bill: this.bill },
         })
@@ -340,7 +326,7 @@ export default {
     loadMaterial: function () {
       const token = localStorage.getItem("token");
       axios
-        .get("http://jahidmsk.pythonanywhere.com/api/materials/", {
+        .get("https://jahidmsk.pythonanywhere.com/api/materials/", {
           headers: { Authorization: `token ${token}` },
           params: { type: this.type },
           // params: { id: this.material.id, type: this.type },
@@ -356,7 +342,7 @@ export default {
     loadMaterialData: function () {
       const token = localStorage.getItem("token");
       axios
-        .get("http://jahidmsk.pythonanywhere.com/api/materials/", {
+        .get("https://jahidmsk.pythonanywhere.com/api/materials/", {
           headers: { Authorization: `token ${token}` },
           params: {
             type: this.type,
@@ -380,7 +366,7 @@ export default {
       this.submission_date = new Date().toISOString().substr(0, 10)
     }, // todayDate()
 
-    // Bill Submission (POST): http://jahidmsk.pythonanywhere.com/api/work-submissions/
+    // Bill Submission (POST): https://jahidmsk.pythonanywhere.com/api/work-submissions/
     submitBillSubmissionForm() {
       const token = localStorage.getItem("token");
 
@@ -396,7 +382,7 @@ export default {
 
       axios
         .post(
-          "http://jahidmsk.pythonanywhere.com/api/work-submissions/",
+          "https://jahidmsk.pythonanywhere.com/api/work-submissions/",
           bodyParameters,
           config
         )
@@ -405,14 +391,15 @@ export default {
             icon: "success",
             text: "Work Submitted Successfully!",
           }).then((result) => {
-            this.$router.go();
-            console.log(result);
+            this.$router.go()
+            // this.$router.push("work-submission-list")
+            console.log(result)
           });
-          console.log(response);
+          console.log(response)
         })
         .catch((error) => {
-          this.field_validation_data = error.response.data;
-          console.log("--++", error.response);
+          this.field_validation_data = error.response.data
+          console.log("--++", error.response)
         });
       // console.log(response)
 

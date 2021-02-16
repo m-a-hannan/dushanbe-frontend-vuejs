@@ -15,9 +15,7 @@
 
         <!-- Work Details -->
         <li class="nav-item">
-          <!-- <router-link class="nav-link" id="work_details_button" :to="{name: 'WorkSubmissionList', params: { id: user.id },}">Details</router-link>-->
-          <router-link class="nav-link" id="work_details_button" :to="{name: 'WorkSubmissionList',}" target="_blank">List</router-link>
-          <!-- <a href="" class="nav-link" id="work_details_button">Details</a>-->
+          <router-link class="nav-link" id="work_details_button" :to="{name: 'WorkSubmissionList',}">View</router-link>
         </li>
 
         <!-- Logout -->
@@ -58,11 +56,11 @@ export default {
 
   methods: {
 
-    // Logout (GET): http://jahidmsk.pythonanywhere.com/api/logout/
+    // Logout (GET): https://jahidmsk.pythonanywhere.com/api/logout/
     logout() {
       const token = localStorage.getItem("token");
       axios.get(
-          "http://jahidmsk.pythonanywhere.com/api/work-submissions/logout/",
+          "https://jahidmsk.pythonanywhere.com/api/work-submissions/logout/",
           {
             headers: {Authorization: `token ${token}`},
           }
