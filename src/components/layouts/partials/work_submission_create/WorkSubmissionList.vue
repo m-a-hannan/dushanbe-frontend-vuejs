@@ -11,7 +11,7 @@
                         <router-link :to="{name: 'WorkSubmissionCreate'}">
                             <a class="float" style="position: absolute; right: 1%">
                                 <button type="button" class="btn btn-primary btn-lg active" style="font-size: 15px">
-                                    <span class="fas fa-plus-square"></span> Add Works List
+                                    <span class="fas fa-plus-square"></span> Add Work
                                 </button>
                             </a>
                         </router-link>
@@ -91,7 +91,7 @@
 
         methods: {
 
-            // Work Submission List (GET): http://jahidmsk.pythonanywhere.com/api/work-submissions/
+            // Work Submission List (GET): https://jahidmsk.pythonanywhere.com/api/work-submissions/
             loadWorkSubmission: function () {
                 const token = localStorage.getItem("token")
 
@@ -99,7 +99,7 @@
 
                 console.log('----', user_id, typeof user_id)
 
-                axios.get("http://jahidmsk.pythonanywhere.com/api/work-submissions/", {
+                axios.get("https://jahidmsk.pythonanywhere.com/api/work-submissions/", {
                     headers: {Authorization: `token ${token}`},
                     params: {user_id}
                 }).then(

@@ -109,10 +109,10 @@ export default {
   }, // data
 
   methods: {
-    // Login (POST): http://jahidmsk.pythonanywhere.com/api/login/
+    // Login (POST): https://jahidmsk.pythonanywhere.com/api/login/
     loginSubmit() {
       axios
-          .post("http://jahidmsk.pythonanywhere.com/api/login/", {
+          .post("https://jahidmsk.pythonanywhere.com/api/login/", {
             username: this.username,
             password: this.password,
           })
@@ -133,7 +133,9 @@ export default {
             );
 
             // go to this route after login
-            window.location.href = "/work-submission-list";
+            // window.location.href = "/work-submission-list"
+            window.location.href = "/work-submission-create"
+
           }) // then
           .catch((error) => {
             this.login_validation_data = error.response.data;
