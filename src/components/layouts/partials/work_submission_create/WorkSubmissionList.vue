@@ -24,7 +24,11 @@
     </div>
 
     <div class="accordion mt-4" id="accordionExample">
-      <div class="card" v-for="work in all_work_submissions" :key="work.id">
+      <div
+        class="card"
+        v-for="(work, index) in all_work_submissions"
+        :key="work.id"
+      >
         <div class="card-header" :id="'heading_' + work.id">
           <h2 class="mb-0">
             <button
@@ -32,11 +36,11 @@
               type="button"
               data-toggle="collapse"
               :data-target="'#collapse_' + work.id"
-              aria-expanded="false"
+              :aria-expanded="index < 1 ? true : false"
               :aria-controls="'collapse_' + work.id"
             >
               <span>{{
-                work.id + ". " + work.bill.short_bill_name + "..."
+                index + 1 + ". " + work.bill.short_bill_name + "..."
               }}</span>
 
               <span>{{ work.submission_date }}</span>
@@ -46,7 +50,7 @@
 
         <div
           :id="'collapse_' + work.id"
-          class="collapse"
+          :class="index < 1 ? 'collapse show' : 'collapse'"
           :aria-labelledby="'heading_' + work.id"
           data-parent="#accordionExample"
         >
@@ -193,7 +197,7 @@ export default {
 }
 
 /* ///////////// Custom accordion ///////////////// */
-.accordion .card {
+.card {
   border: 0;
   box-shadow: 0 1px 2px rgb(0, 0, 0, 0.2);
   overflow: hidden;
