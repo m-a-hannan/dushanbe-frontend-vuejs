@@ -1,7 +1,7 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import Login from "@/views/Login"
 import WorkSubmissionCreate from "@/views/WorkSubmissionCreate"
-import WorkSubmissionList from "@/components/layouts/partials/work_submission_create/WorkSubmissionList";
+import WorkSubmissionList from "@/components/layouts/partials/work_submission_create/WorkSubmissionList"
 
 
 // custom routes

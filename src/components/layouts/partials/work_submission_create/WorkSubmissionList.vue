@@ -40,7 +40,8 @@
               :aria-controls="'collapse_' + work.id"
             >
               <span>{{
-                index + 1 + ". " + work.bill.short_bill_name + "..."
+                // index + 1 + ". " + work.bill.short_bill_name + "..."
+                work.id + ". " + work.bill.bill_name + "..."
               }}</span>
 
               <span>{{ work.submission_date }}</span>
@@ -56,10 +57,17 @@
         >
           <div class="card-body border-top">
             <div class="outer-box type-and-user">
+
+              <div class="inner-box">
+                <small>Serial No</small>
+                <h5>{{ work.material.serial_no }}</h5>
+              </div>
+
               <div class="inner-box">
                 <small>Type</small>
-                <h5>{{ work.type.short_type_name }}</h5>
+                <h5>{{ work.type.type_name }}</h5>
               </div>
+
               <div class="inner-box">
                 <small>Unit</small>
                 <h5 class="text-uppercase">{{ work.material.unit }}</h5>
@@ -80,7 +88,7 @@
             <div class="dropdown-divider my-3"></div>
             <div class="outer-box">
               <h5>Material</h5>
-              <p>{{ work.material.short_material_name }}</p>
+              <p>{{ work.material.material_name }}</p>
             </div>
             <div class="dropdown-divider my-3"></div>
             <div class="box">
@@ -138,8 +146,6 @@ export default {
 
       const user_id = parseInt(localStorage.getItem("id"));
 
-      console.log("----", user_id, typeof user_id);
-
       axios
         .get("https://jahidmsk.pythonanywhere.com/api/work-submissions/", {
           headers: { Authorization: `token ${token}` },
@@ -147,7 +153,7 @@ export default {
         })
         .then(
           function (response) {
-            this.all_work_submissions = response.data;
+            this.all_work_submissions = response.data
           }.bind(this)
         ); // then
     }, // loadWorkSubmission
