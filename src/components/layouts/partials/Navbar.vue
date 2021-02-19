@@ -56,11 +56,11 @@ export default {
 
   methods: {
 
-    // Logout (GET): https://jahidmsk.pythonanywhere.com/api/logout/
+    // Logout (GET): https://dushanbe-backend-apis.herokuapp.com/api/logout/
     logout() {
       const token = localStorage.getItem("token");
       axios.get(
-          "https://jahidmsk.pythonanywhere.com/api/work-submissions/logout/",
+          "https://dushanbe-backend-apis.herokuapp.com/api/work-submissions/logout/",
           {
             headers: {Authorization: `token ${token}`},
           }

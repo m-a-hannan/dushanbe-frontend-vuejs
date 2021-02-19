@@ -293,11 +293,11 @@ export default {
 
   methods: {
 
-    // Bill List (GET): https://jahidmsk.pythonanywhere.com/api/bills/
+    // Bill List (GET): https://dushanbe-backend-apis.herokuapp.com/api/bills/
     loadBill: function () {
       const token = localStorage.getItem("token");
       axios
-        .get("https://jahidmsk.pythonanywhere.com/api/bills/", {
+        .get("https://dushanbe-backend-apis.herokuapp.com/api/bills/", {
           headers: { Authorization: `token ${token}` },
         })
         .then(
@@ -307,11 +307,11 @@ export default {
         ); // then
     }, // loadBill
 
-    // Type List (GET): http://jahidmsk.pythonanywhere.com/api/types/
+    // Type List (GET): https://dushanbe-backend-apis.herokuapp.com/api/types/
     loadType: function () {
       const token = localStorage.getItem("token");
       axios
-        .get("https://jahidmsk.pythonanywhere.com/api/types/", {
+        .get("https://dushanbe-backend-apis.herokuapp.com/api/types/", {
           headers: { Authorization: `token ${token}` },
           params: { bill: this.bill },
         })
@@ -322,11 +322,11 @@ export default {
         ); // then
     }, // loadType
 
-    // Material List (GET): http://jahidmsk.pythonanywhere.com/api/materials/
+    // Material List (GET): https://dushanbe-backend-apis.herokuapp.com/api/materials/
     loadMaterial: function () {
       const token = localStorage.getItem("token");
       axios
-        .get("https://jahidmsk.pythonanywhere.com/api/materials/", {
+        .get("https://dushanbe-backend-apis.herokuapp.com/api/materials/", {
           headers: { Authorization: `token ${token}` },
           params: { type: this.type },
           // params: { id: this.material.id, type: this.type },
@@ -338,11 +338,11 @@ export default {
         ); // then
     }, // loadMaterial
 
-    // Material Data (GET): http://jahidmsk.pythonanywhere.com/api/materials/
+    // Material Data (GET): https://dushanbe-backend-apis.herokuapp.com/api/materials/
     loadMaterialData: function () {
       const token = localStorage.getItem("token");
       axios
-        .get("https://jahidmsk.pythonanywhere.com/api/materials/", {
+        .get("https://dushanbe-backend-apis.herokuapp.com/api/materials/", {
           headers: { Authorization: `token ${token}` },
           params: {
             type: this.type,
@@ -366,7 +366,7 @@ export default {
       this.submission_date = new Date().toISOString().substr(0, 10)
     }, // todayDate()
 
-    // Bill Submission (POST): https://jahidmsk.pythonanywhere.com/api/work-submissions/
+    // Bill Submission (POST): https://dushanbe-backend-apis.herokuapp.com/api/work-submissions/
     submitBillSubmissionForm() {
       const token = localStorage.getItem("token");
 
@@ -382,7 +382,7 @@ export default {
 
       axios
         .post(
-          "https://jahidmsk.pythonanywhere.com/api/work-submissions/",
+          "https://dushanbe-backend-apis.herokuapp.com/api/work-submissions/",
           bodyParameters,
           config
         )

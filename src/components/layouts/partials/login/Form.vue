@@ -109,10 +109,11 @@ export default {
   }, // data
 
   methods: {
-    // Login (POST): https://jahidmsk.pythonanywhere.com/api/login/
+
+    // Login (POST): https://dushanbe-backend-apis.herokuapp.com/api/login/
     loginSubmit() {
       axios
-          .post("https://jahidmsk.pythonanywhere.com/api/login/", {
+          .post("https://dushanbe-backend-apis.herokuapp.com/api/login/", {
             username: this.username,
             password: this.password,
           })

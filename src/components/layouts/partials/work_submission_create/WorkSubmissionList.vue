@@ -29,6 +29,7 @@
         v-for="(work, index) in all_work_submissions"
         :key="work.id"
       >
+
         <div class="card-header" :id="'heading_' + work.id">
           <h2 class="mb-0">
             <button
@@ -70,7 +71,7 @@
 
               <div class="inner-box">
                 <small>Unit</small>
-                <h5 class="text-uppercase">{{ work.material.unit }}</h5>
+                <h5 class="text">{{ work.material.unit }}</h5>
               </div>
               <div class="inner-box">
                 <small>Quantity</small>
@@ -100,12 +101,13 @@
       </div>
     </div>
 
-    <!-- <nav class="mt-3">
+    <!-- pagination -->
+    <nav class="mt-3">
       <ul class="pagination">
         <li class="page-item disabled">
-          <a class="page-link" href="#" tabindex="-1" aria-disabled="true"
-            >Previous</a
-          >
+          <a class="page-link" href="#!" tabindex="-1" aria-disabled="true" v-on:click="setPage(pagination.previous)">
+            Previous
+          </a>
         </li>
         <li class="page-item"><a class="page-link" href="#">1</a></li>
         <li class="page-item active" aria-current="page">
@@ -116,7 +118,30 @@
           <a class="page-link" href="#">Next</a>
         </li>
       </ul>
-    </nav> -->
+    </nav>
+    <!-- pagination end -->
+
+    <!-- pagination Maruf -->
+<!--    <div class="row">-->
+<!--      <div class="col-md-4">-->
+<!--        <ul class="pagination" v-if="pagination.count">-->
+<!--          <li class="page-item">-->
+<!--            <a href="#">Showing {{ pagination.showing }} of {{ pagination.count }}</a>-->
+<!--          </li>-->
+<!--          <li :class="{ disabled: !pagination.previous }" class="page-item">-->
+<!--            <a href="#!" v-on:click="setPage(pagination.previous)">Previous</a>-->
+<!--          </li>-->
+
+<!--          <li :class="{ disabled: !pagination.next }" class="page-item">-->
+<!--            <a href="#!" v-on:click="setPage(pagination.next)">Next</a>-->
+<!--          </li>-->
+<!--        </ul>-->
+<!--      </div>-->
+<!--      <div class="col-md-6"></div>-->
+<!--      <div class="col-md-2"></div>-->
+<!--    </div>-->
+    <!-- pagination Maruf end -->
+
   </div>
   <!-- main row end -->
 </template>
@@ -136,33 +161,59 @@ export default {
 
       // queryParam data
       created_by: null,
-    };
+
+      // pagination data
+      pagination: {
+        count: null,
+        next: null,
+        previous: null,
+        showing: 0,
+        page: null,
+      },
+
+    } // return
+
   }, // data
 
   methods: {
-    // Work Submission List (GET): https://jahidmsk.pythonanywhere.com/api/work-submissions/
+
+    // Work Submission List (GET): https://dushanbe-backend-apis.herokuapp.com/api/work-submissions/
     loadWorkSubmission: function () {
       const token = localStorage.getItem("token");
 
       const user_id = parseInt(localStorage.getItem("id"));
 
       axios
-        .get("https://jahidmsk.pythonanywhere.com/api/work-submissions/", {
+        .get("https://dushanbe-backend-apis.herokuapp.com/api/work-submissions/", {
           headers: { Authorization: `token ${token}` },
           params: { user_id },
         })
         .then(
           function (response) {
-            this.all_work_submissions = response.data
+            this.all_work_submissions = response.data.results
+
+            // pagination data
+            this.pagination.count = response.data.count
+            this.pagination.next = response.data.next
+            this.pagination.previous = response.data.previous
+            this.pagination.showing = response.data.results.length
+
           }.bind(this)
         ); // then
     }, // loadWorkSubmission
+
+    // pagination
+    setPage(page) {
+      this.pagination.page = page
+    }, // setPage
+
   }, // methods
 
   created() {
-    this.loadWorkSubmission();
+    this.loadWorkSubmission()
   }, // created
-}; // export default
+
+} // export default
 </script>
 
 
