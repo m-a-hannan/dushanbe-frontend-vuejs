@@ -167,15 +167,21 @@ body {
 }
 
 .loginContainer {
+  width: 100%;
   height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: relative;
+  /*display: flex;*/
+  /*align-items: center;*/
+  /*justify-content: center;*/
 }
 
 .form-container {
+  position: absolute;
+  top: 50%;
+  left:50%;
+  transform: translate(-50%,-50%);
   width: 600px;
-  margin: 50px auto;
+  /*margin: 50px auto;*/
   padding: 100px 80px;
   /*text-align: center;*/
   background: #ffffff;

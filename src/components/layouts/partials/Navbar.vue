@@ -82,5 +82,7 @@ export default {
 
 
 <!-- css section -->
-<style scoped></style>
+<style scoped>
+
+</style>
 
