@@ -135,7 +135,11 @@ export default {
 
             // go to this route after login
             // window.location.href = "/work-submission-list"
-            window.location.href = "/work-submission-create"
+            // window.location.href = "/work-submission-create"
+
+            /* solution */
+            // this.$router.go()
+            this.$router.push("work-submission-create")
 
           }) // then
           .catch((error) => {
