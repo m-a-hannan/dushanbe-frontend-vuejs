@@ -14,7 +14,7 @@
 
 <!-- script section -->
 <script>
-import Form from "../components/layouts/partials/login/Form";
+import Form from "../components/layouts/partials/login/Form"
 
 export default {
 

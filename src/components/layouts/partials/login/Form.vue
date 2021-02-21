@@ -90,8 +90,8 @@
 
 <!-- script section -->
 <script>
-import axios from "axios";
-import * as Swal from "sweetalert2";
+import axios from "axios"
+import * as Swal from "sweetalert2"
 
 export default {
   name: "Form",
@@ -105,7 +105,7 @@ export default {
         username: null,
         password: null,
       },
-    };
+    }
   }, // data
 
   methods: {
@@ -118,43 +118,39 @@ export default {
             password: this.password,
           })
           .then((response) => {
-            localStorage.setItem("id", response.data.id);
-            localStorage.setItem("username", response.data.username);
-            localStorage.setItem("first_name", response.data.first_name);
-            localStorage.setItem("last_name", response.data.last_name);
-            localStorage.setItem("active_status", response.data.active_status);
+            localStorage.setItem("id", response.data.id)
+            localStorage.setItem("username", response.data.username)
+            localStorage.setItem("first_name", response.data.first_name)
+            localStorage.setItem("last_name", response.data.last_name)
+            localStorage.setItem("active_status", response.data.active_status)
             localStorage.setItem(
                 "superuser_status",
                 response.data.superuser_status
-            );
-            localStorage.setItem("token", response.data.token);
+            )
+            localStorage.setItem("token", response.data.token)
             localStorage.setItem(
                 "user_permissions",
                 JSON.stringify(response.data.user_permissions)
-            );
+            )
 
             // go to this route after login
-            // window.location.href = "/work-submission-list"
             // window.location.href = "/work-submission-create"
-
-            /* solution */
-            // this.$router.go()
             this.$router.push("work-submission-create")
 
           }) // then
           .catch((error) => {
-            this.login_validation_data = error.response.data;
+            this.login_validation_data = error.response.data
             Swal.fire({
               icon: "error",
               text: "Provided Credentials Are Not Correct! Please Try Again...",
-            }); // swal
+            }) // swal
 
-            return error.status(400).json({error: error});
+            return error.status(400).json({error: error})
             // console.log(error)
-          }); // catch
+          }) // catch
     }, // loginSubmit
   }, // methods
-}; // export default
+} // export default
 </script>
 
 

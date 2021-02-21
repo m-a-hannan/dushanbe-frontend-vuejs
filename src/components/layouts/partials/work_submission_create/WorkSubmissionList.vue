@@ -161,7 +161,7 @@
 
 <!-- script section -->
 <script>
-import axios from "axios";
+import axios from "axios"
 
 export default {
   name: "WorkSubmissionList",
@@ -191,9 +191,9 @@ export default {
 
     // Work Submission List (GET): https://dushanbe-backend-apis.herokuapp.com/api/work-submissions/
     loadWorkSubmission: function () {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("token")
 
-      const user_id = parseInt(localStorage.getItem("id"));
+      const user_id = parseInt(localStorage.getItem("id"))
 
       axios
           .get("https://dushanbe-backend-apis.herokuapp.com/api/work-submissions/", {
@@ -211,7 +211,7 @@ export default {
                 this.pagination.showing = response.data.results.length
 
               }.bind(this)
-          ); // then
+          ) // then
     }, // loadWorkSubmission
 
     // pagination

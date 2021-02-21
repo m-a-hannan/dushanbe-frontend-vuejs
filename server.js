@@ -19,7 +19,7 @@ const buildLocation = 'dist'
 app.use(express.static(`${buildLocation}`))
 app.use((req, res, next) => {
     if (!req.originalUrl.includes(buildLocation)) {
-        res.sendFile(`${__dirname}/${buildLocation}/index.html`);
+        res.sendFile(`${__dirname}/${buildLocation}/index.html`)
     } else {
         next()
     }

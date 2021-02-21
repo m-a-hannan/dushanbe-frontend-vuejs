@@ -58,14 +58,14 @@ export default {
 
     // Logout (GET): https://dushanbe-backend-apis.herokuapp.com/api/logout/
     logout() {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("token")
       axios.get(
           "https://dushanbe-backend-apis.herokuapp.com/api/work-submissions/logout/",
           {
             headers: {Authorization: `token ${token}`},
           }
       ).then((res) => {
-        console.log(res.data);
+        console.log(res.data)
       }).catch((error) => {
         console.error(error)
       })

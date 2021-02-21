@@ -288,28 +288,28 @@ export default {
 
       // localStorage data
       username: localStorage.getItem("username"),
-    }; // return
+    } // return
   }, // data
 
   methods: {
 
     // Bill List (GET): https://dushanbe-backend-apis.herokuapp.com/api/bills/
     loadBill: function () {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("token")
       axios
         .get("https://dushanbe-backend-apis.herokuapp.com/api/bills/", {
           headers: { Authorization: `token ${token}` },
         })
         .then(
           function (response) {
-            this.all_bills = response.data;
+            this.all_bills = response.data
           }.bind(this)
-        ); // then
+        ) // then
     }, // loadBill
 
     // Type List (GET): https://dushanbe-backend-apis.herokuapp.com/api/types/
     loadType: function () {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("token")
       axios
         .get("https://dushanbe-backend-apis.herokuapp.com/api/types/", {
           headers: { Authorization: `token ${token}` },
@@ -317,14 +317,14 @@ export default {
         })
         .then(
           function (response) {
-            this.all_types = response.data;
+            this.all_types = response.data
           }.bind(this)
-        ); // then
+        ) // then
     }, // loadType
 
     // Material List (GET): https://dushanbe-backend-apis.herokuapp.com/api/materials/
     loadMaterial: function () {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("token")
       axios
         .get("https://dushanbe-backend-apis.herokuapp.com/api/materials/", {
           headers: { Authorization: `token ${token}` },
@@ -333,14 +333,14 @@ export default {
         })
         .then(
           function (response) {
-            this.all_materials = response.data;
+            this.all_materials = response.data
           }.bind(this)
-        ); // then
+        ) // then
     }, // loadMaterial
 
     // Material Data (GET): https://dushanbe-backend-apis.herokuapp.com/api/materials/
     loadMaterialData: function () {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("token")
       axios
         .get("https://dushanbe-backend-apis.herokuapp.com/api/materials/", {
           headers: { Authorization: `token ${token}` },
@@ -356,7 +356,7 @@ export default {
               this.quantity = element.quantity
             })
           }.bind(this)
-        ); // then
+        ) // then
     }, // loadMaterialData
 
     // Display today's date into 'submission_date' field
@@ -368,9 +368,9 @@ export default {
 
     // Bill Submission (POST): https://dushanbe-backend-apis.herokuapp.com/api/work-submissions/
     submitBillSubmissionForm() {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("token")
 
-      const config = { headers: { Authorization: `token ${token}` } };
+      const config = { headers: { Authorization: `token ${token}` } }
 
       const bodyParameters = {
         bill: this.bill,
@@ -378,7 +378,7 @@ export default {
         material: this.material,
         submission_date: this.submission_date,
         work_progress: this.work_progress,
-      };
+      }
 
       axios
         .post(
@@ -394,13 +394,13 @@ export default {
             this.$router.go()
             // this.$router.push("work-submission-list")
             console.log(result)
-          });
+          })
           console.log(response)
         })
         .catch((error) => {
           this.field_validation_data = error.response.data
           console.log("--++", error.response)
-        });
+        })
       // console.log(response)
 
     }, // submitBillSubmissionForm
