@@ -1,4 +1,5 @@
-import {createRouter, createWebHistory} from 'vue-router'
+// import {createRouter, createWebHistory} from 'vue-router'
+import {createRouter} from 'vue-router'
 import Login from "@/views/Login"
 import WorkSubmissionCreate from "@/views/WorkSubmissionCreate"
 import WorkSubmissionList from "@/components/layouts/partials/work_submission_create/WorkSubmissionList"
@@ -15,7 +16,7 @@ const routes = [
 
 // configure
 const router = createRouter({
-    history: createWebHistory(process.env.BASE_URL),
+    // history: createWebHistory(process.env.BASE_URL),
     routes
 })
 
